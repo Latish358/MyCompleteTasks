@@ -1,0 +1,286 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f6f8fd 0%, #e9f0ff 100%);
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+}
+
+.container:hover {
+    transform: translateY(-5px);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.card-title {
+    color: #1a365d;
+    font-size: 1.5rem;
+    font-weight: 600;
+    opacity: 0;
+    animation: slideInLeft 0.5s ease forwards;
+}
+
+.clock-icon {
+    width: 32px;
+    height: 32px;
+    color: #1a365d;
+    animation: rotateIn 1s ease forwards;
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.input-group:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.input-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #4a5568;
+    font-size: 0.875rem;
+    transform: translateY(0);
+    transition: all 0.3s ease;
+}
+
+.input-field {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: #4299e1;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+}
+
+.status-container {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    padding: 1rem;
+    margin: 1.5rem 0;
+    opacity: 0;
+    animation: slideInRight 0.5s ease forwards 0.4s;
+}
+
+.status-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.5rem 0;
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+    position: relative;
+}
+
+.status-dot::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    opacity: 0;
+    animation: pulse 2s infinite;
+}
+
+.status-in {
+    background-color: rgba(72, 187, 120, 0.1);
+    color: #48bb78;
+}
+
+.status-out {
+    background-color: rgba(229, 62, 62, 0.1);
+    color: #e53e3e;
+}
+
+.button {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #1a365d 0%, #2a4365 100%);
+    color: white;
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0;
+    animation: slideInUp 0.5s ease forwards 0.6s;
+    position: relative;
+    overflow: hidden;
+}
+
+.button:disabled {
+    background: linear-gradient(135deg, #cbd5e0 0%, #a0aec0 100%);
+    cursor: not-allowed;
+}
+
+.button:not(:disabled):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(26, 54, 93, 0.25);
+}
+
+.button::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%);
+    transform-origin: 50% 50%;
+}
+
+.button:not(:disabled):active::after {
+    animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0, 0);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(100, 100);
+        opacity: 0;
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes rotateIn {
+    from {
+        transform: rotate(-180deg);
+        opacity: 0;
+    }
+    to {
+        transform: rotate(0);
+        opacity: 1;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+    70% {
+        transform: scale(2);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0;
+    }
+}
+
+@media (max-width: 640px) {
+    body {
+        padding: 1rem;
+    }
+
+    .container {
+        padding: 1.5rem;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+    }
+
+    .button {
+        padding: 0.875rem;
+    }
+}

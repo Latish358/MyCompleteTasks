@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claims Management System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="./Claim-front.css"> -->
+     <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: #f0f2f5;
+    color: #333;
+    font-size: 16px;
+}
+
+.dashboard {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow-y: scroll;
+}
+
+.header {
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    animation: slideDown 0.5s ease-out;
+    text-align: center;
+}
+
+.claim-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin: 1rem 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.claim-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.claim-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+    animation: slideUp 0.5s ease-out;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e1e1e1;
+    border-radius: 5px;
+    margin-top: 5px;
+    transition: border-color 0.3s;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+.submit-btn {
+    background: #4CAF50;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.submit-btn:hover {
+    background: #45a049;
+    transform: translateY(-2px);
+}
+
+.clear-btn {
+    background: #f44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background 0.3s;
+}
+
+.clear-btn:hover {
+    background: #e53935;
+}
+
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+.status-pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status-approved {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-rejected {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.stat-card i {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #4CAF50;
+}
+
+/* Keyframes */
+@keyframes slideDown {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    border-radius: 5px;
+    background: #4CAF50;
+    color: white;
+    transform: translateX(150%);
+    transition: transform 0.3s;
+    z-index: 1000;
+}
+
+.notification.show {
+    transform: translateX(0);
+}
+
+.error-message{
+    color: #e53935;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .dashboard {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .header {
+        padding: 1.5rem;
+    }
+
+    .claim-form {
+        padding: 1.5rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 10px;
+    }
+
+    .submit-btn, .clear-btn {
+        width: 100%;
+        padding: 12px;
+    }
+
+    .stats-container {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .stat-card {
+        padding: 1rem;
+    }
+
+    .claim-card {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard {
+        padding: 1rem;
+    }
+
+    .header {
+        padding: 1rem;
+    }
+
+    .claim-form {
+        padding: 1rem;
+    }
+
+    .stats-container {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-card i {
+        font-size: 1.5rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 8px;
+    }
+
+    .submit-btn, .clear-btn {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        font-size: 14px;
+    }
+
+    .header h1 {
+        font-size: 1.5rem;
+    }
+
+    .claim-form {
+        padding: 0.75rem;
+    }
+
+    .submit-btn, .clear-btn {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .stat-card i {
+        font-size: 1.5rem;
+    }
+
+    .stats-container {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-card h3 {
+        font-size: 1rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 6px;
+    }
+}
+
+
+     </style>
+</head>
+<body>
+
+    <!-- Employee Module -->
+    <div id="employeeModule" class="dashboard">
+        <div class="header">
+            <h1><i class="fas fa-user"></i> EMPLOYEE CLAIMS DASHBOARD</h1>
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <i class="fas fa-file-invoice-dollar"></i>
+                <h3>Total Claims</h3>
+                <p id="employeeClaimCount">0</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-check-circle"></i>
+                <h3>Approved Claims</h3>
+                <p id="employeeApprovedCount">0</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-clock"></i>
+                <h3>Pending Claims</h3>
+                <p id="employeePendingCount">0</p>
+            </div>
+        </div>
+
+        <div class="claim-form">
+            <h2><i class="fas fa-plus-circle"></i> Submit New Claim</h2><br>
+            <div class="form-group">
+                <label>Employee ID</label>
+                <input type="text" id="employeeId" placeholder="Format: ATS0XXX">
+                <small class="error-message" id="employeeIdError"></small>
+            </div>
+            <div class="form-group">
+                <label>Claim Type</label>
+                <select id="claimType">
+                    <option value="travel">Travel Claim</option>
+                    <option value="medical">Medical Claim</option>
+                    <option value="training">Training Claim</option>
+                    <option value="wfh">Work From Home Claim</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Date</label>
+                <input type="date" id="claimDate">
+            </div>
+            <div class="form-group">
+                <label>Amount</label>
+                <input type="number" id="claimAmount" placeholder="Enter amount">
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea id="claimDescription" rows="4" placeholder="Enter claim details"></textarea>
+            </div>
+            <button class="submit-btn" onclick="submitClaim()">
+                <i class="fas fa-paper-plane"></i> Submit Claim
+            </button>
+            <button class="clear-btn" onclick="clearClaims()">
+                <i class="fas fa-trash-alt"></i> Clear Records
+            </button>
+        </div>
+
+        <div class="claims-list" id="employeeClaimsList">
+            <h2><i class="fas fa-list"></i> My Claims</h2>
+            <!-- Claims will be populated here -->
+        </div>
+    </div>
+
+    <div class="notification" id="notification"></div>
+    <script>
+        let claims = JSON.parse(localStorage.getItem('claims')) || [];
+
+        function validateEmployeeId(employeeId) {
+            const pattern = /^ATS0\d{3}$/;
+            return pattern.test(employeeId);
+        }
+
+        function validateClaimDate() {
+            const claimDate = document.getElementById('claimDate').value;
+            const year = claimDate.split('-')[0];
+
+            if (year.length !== 4 || isNaN(year)) {
+                showNotification('Please enter a valid 4-digit year for the claim date.', 'error');
+                return false;
+            }
+            return true;
+        }
+
+        function submitClaim() {
+            const employeeId = document.getElementById('employeeId').value;
+            const employeeIdError = document.getElementById('employeeIdError');
+
+            // Validate Employee ID
+            if (!validateEmployeeId(employeeId)) {
+                employeeIdError.textContent = 'Invalid Employee ID format. Must be ATS0 followed by 3 digits.';
+                showNotification('Invalid Employee ID format', 'error');
+                return;
+            } else {
+                employeeIdError.textContent = '';
+            }
+
+            // Validate Claim Date
+            if (!validateClaimDate()) {
+                return;
+            }
+
+            const claim = {
+                id: Date.now(),
+                employeeId: employeeId,
+                type: document.getElementById('claimType').value,
+                date: document.getElementById('claimDate').value,
+                amount: document.getElementById('claimAmount').value,
+                description: document.getElementById('claimDescription').value,
+                status: 'pending',
+                submittedAt: new Date().toISOString()
+            };
+
+            if (!claim.date) {
+                showNotification('Please fill in the Claim date properly', 'error');
+                return;
+            }
+
+            // Validate Claim Amount
+            if (!claim.amount || claim.amount < 500) {
+                showNotification('Claim amount must be at least $500.', 'error');
+                return;
+            }
+
+            if (!claim.description) {
+                showNotification('Please fill in the Claim description properly', 'error');
+                return;
+            }
+
+            // Validate Claim Description
+            const description = claim.description;
+            if (description.replace(/\s/g, '').length < 5 || !/^[A-Za-z\s]+$/.test(description)) {
+                showNotification('Claim description must be at least 5 characters long, containing only letters and spaces.', 'error');
+                return;
+            }
+
+            // Add claim to localStorage
+            claims.push(claim);
+            localStorage.setItem('claims', JSON.stringify(claims));
+
+            // Reset form
+            document.getElementById('employeeId').value = '';
+            document.getElementById('claimDate').value = '';
+            document.getElementById('claimAmount').value = '';
+            document.getElementById('claimDescription').value = '';
+
+            loadEmployeeDashboard();
+            showNotification('Claim submitted successfully!', 'success');
+        }
+
+        function clearClaims() {
+            const confirmation = confirm("Are you sure you want to clear all claims? This action cannot be undone.");
+            if (confirmation) {
+                localStorage.removeItem('claims');
+                claims = [];
+                loadEmployeeDashboard();
+                showNotification('All claims have been cleared!', 'success');
+            }
+        }
+
+        function loadEmployeeDashboard() {
+            const employeeClaimsList = document.getElementById('employeeClaimsList');
+            employeeClaimsList.innerHTML = '<h2><i class="fas fa-list"></i> My Claims</h2>';
+
+            // Update statistics
+            document.getElementById('employeeClaimCount').textContent = claims.length;
+            document.getElementById('employeeApprovedCount').textContent =
+                claims.filter(claim => claim.status === 'approved').length;
+            document.getElementById('employeePendingCount').textContent =
+                claims.filter(claim => claim.status === 'pending').length;
+
+            claims.sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt))
+                .forEach(claim => {
+                    const claimCard = document.createElement('div');
+                    claimCard.className = 'claim-card';
+                    claimCard.innerHTML = `
+                        <h3><i class="fas fa-file-alt"></i> ${claim.type.charAt(0).toUpperCase() + claim.type.slice(1)} Claim</h3>
+                        <p><strong>Employee ID:</strong> ${claim.employeeId}</p>
+                        <p><strong>Date:</strong> ${new Date(claim.date).toLocaleDateString()}</p>
+                        <p><strong>Amount:</strong> $${claim.amount}</p>
+                        <p><strong>Description:</strong> ${claim.description}</p>
+                        <p><strong>Status:</strong> <span class="status-badge status-${claim.status}">${claim.status.toUpperCase()}</span></p>
+                    `;
+                    employeeClaimsList.appendChild(claimCard);
+                });
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.background = type === 'success' ? '#4CAF50' : '#f44336';
+            notification.classList.add('show');
+
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Add event listeners to input fields to clear error messages on valid input
+        document.getElementById('employeeId').addEventListener('input', function() {
+            const employeeIdError = document.getElementById('employeeIdError');
+            if (validateEmployeeId(this.value)) {
+                employeeIdError.textContent = '';
+            }
+        });
+
+        document.getElementById('claimDate').addEventListener('input', function() {
+            if (validateClaimDate()) {
+                // Clear any date-related error messages if needed
+            }
+        });
+
+        document.getElementById('claimAmount').addEventListener('input', function() {
+            const amount = parseFloat(this.value);
+            if (amount >= 500) {
+                // Clear any amount-related error messages if needed
+            }
+        });
+
+        document.getElementById('claimDescription').addEventListener('input', function() {
+            const description = this.value;
+            if (description.replace(/\s/g, '').length >= 5 && /^[A-Za-z\s]+$/.test(description)) {
+                // Clear any description-related error messages if needed
+            }
+        });
+
+        // Initialize dashboard on load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadEmployeeDashboard();
+        });
+    </script>
+</body>
+</html>

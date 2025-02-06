@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Offboarding Portal</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <!-- <link rel="stylesheet" href="./offboarding.css"> -->
+     <style>
+        :root {
+    --primary-color: #4f46e5;
+    --secondary-color: #818cf8;
+    --background-color: #f3f4f6;
+    --text-color: #1f2937;
+    --sidebar-width: 280px;
+    --header-height: 60px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: white;
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar {
+    width: var(--sidebar-width);
+    background: white;
+    padding: 2rem;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-items {
+    list-style: none;
+}
+
+.nav-item {
+    margin-bottom: 0.5rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.nav-item.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+.nav-item:not(.active):hover {
+    background: var(--background-color);
+}
+
+.main-content {
+    margin-left: var(--sidebar-width);
+    flex-grow: 1;
+    padding: 2rem;
+}
+
+.section {
+    display: none;
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1rem;
+    animation: fadeIn 0.3s ease;
+}
+
+.section.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 0.25rem;
+    border: 2px solid #e5e7eb;
+    cursor: pointer;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-secondary {
+    background: #e5e7eb;
+    color: var(--text-color);
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.error {
+    color: #ef4444;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    display: none;
+}
+
+.submit-section {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.status-pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status-completed {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.file-upload {
+    border: 2px dashed #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.file-upload:hover {
+    border-color: var(--primary-color);
+    background: rgba(79, 70, 229, 0.05);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        position: relative;
+        height: auto;
+        box-shadow: none;
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: 1rem;
+    }
+
+    .nav-item {
+        font-size: 0.875rem;
+        padding: 0.5rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .form-group label {
+        font-size: 0.875rem;
+    }
+
+    .form-control {
+        font-size: 0.875rem;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .file-upload {
+        padding: 1rem;
+        font-size: 0.875rem;
+    }
+
+    .submit-section {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        font-size: 1.2rem;
+    }
+
+    .nav-item {
+        font-size: 0.75rem;
+    }
+
+    .form-control {
+        font-size: 0.875rem;
+    }
+
+    .section-title {
+        font-size: 1.25rem;
+    }
+}
+
+     </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="logo">
+            <i class="fas fa-box-open"></i>
+            OFFBOARDING
+        </div>
+        <ul class="nav-items">
+            <li class="nav-item active" data-section="personal">
+                <i class="fas fa-user"></i>
+                Personal Details
+            </li>
+            <li class="nav-item" data-section="projects">
+                <i class="fas fa-project-diagram"></i>
+                Project Handover
+            </li>
+            <li class="nav-item" data-section="assets">
+                <i class="fas fa-laptop"></i>
+                Company Assets
+            </li>
+            <li class="nav-item" data-section="documents">
+                <i class="fas fa-file-alt"></i>
+                Documentation
+            </li>
+            <li class="nav-item" data-section="confirmation">
+                <i class="fas fa-check-circle"></i>
+                Final Confirmation
+            </li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <center><h1 style="text-shadow: 2px 2px 6px #b3b3b3;">ATS-ASTROLITE TECH SOLUTIONS</h1></center><br>
+        <form id="offboardingForm" onsubmit="submitForm(event, 'offboarding')" style="box-shadow: 0 4px 8px rgba(0, 123, 255, 0.5);border-radius: 10px;">
+            <!-- Personal Details Section -->
+            <div class="section active" id="personal">
+                <div class="section-header">
+                    <h2 class="section-title">Personal Details</h2>
+                    <div class="status-pill status-pending">In Progress</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" class="form-control" required minlength="5">
+                    <div class="error">Please enter your full name</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="empId">Employee ID</label>
+                    <input type="text" id="empId" class="form-control" required minlength="7">
+                    <div class="error">Please enter your employee ID</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="position">Position</label>
+                    <input type="text" id="position" class="form-control" required minlength="5">
+                    <div class="error">Please enter your position</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="lastDay">Last Working Day</label>
+                    <input type="date" id="lastDay" class="form-control" required minlength="5">
+                    <div class="error">Please select your last working day</div>
+                </div>
+            </div>
+
+            <!-- Project Handover Section -->
+            <div class="section" id="projects">
+                <div class="section-header">
+                    <h2 class="section-title">Project Handover</h2>
+                    <div class="status-pill status-pending">Pending</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="activeProjects">Active Projects</label>
+                    <textarea id="activeProjects" class="form-control" rows="4" required minlength="5"></textarea>
+                    <div class="error">Please list your active projects</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="handoverPerson">Handover Person</label>
+                    <input type="text" id="handoverPerson" class="form-control" required minlength="5">
+                    <div class="error">Please specify the handover person</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Project Documentation</label>
+                    <div class="file-upload">
+                        <i class="fas fa-cloud-upload-alt fa-2x mb-2"></i>
+                        <p>Drag and drop files here or click to browse</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Company Assets Section -->
+            <div class="section" id="assets">
+                <div class="section-header">
+                    <h2 class="section-title">Company Assets</h2>
+                    <div class="status-pill status-pending">Pending</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Hardware Items</label>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="laptop">
+                        <label for="laptop">Laptop</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="monitor">
+                        <label for="monitor">Monitor</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="phone">
+                        <label for="phone">Company Phone</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="accessCard">
+                        <label for="accessCard">Access Card</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="additionalAssets">Additional Assets</label>
+                    <textarea id="additionalAssets" class="form-control" rows="3"></textarea>
+                </div>
+            </div>
+
+            <!-- Documentation Section -->
+            <div class="section" id="documents">
+                <div class="section-header">
+                    <h2 class="section-title">Documentation</h2>
+                    <div class="status-pill status-pending">Pending</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="repositories">Code Repositories</label>
+                    <textarea id="repositories" class="form-control" rows="3" required minlength="5"></textarea>
+                    <div class="error">Please list all code repositories</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="accessCredentials">Access Credentials</label>
+                    <textarea id="accessCredentials" class="form-control" rows="3" required minlength="5"></textarea>
+                    <div class="error">Please list all access credentials</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="knowledgeBase">Knowledge Base Articles</label>
+                    <textarea id="knowledgeBase" class="form-control" rows="3" required minlength="5"></textarea>
+                    <div class="error">Please list relevant knowledge base articles</div>
+                </div>
+            </div>
+
+            <!-- Final Confirmation Section -->
+            <div class="section" id="confirmation">
+                <div class="section-header">
+                    <h2 class="section-title">Final Confirmation</h2>
+                    <div class="status-pill status-pending">Pending</div>
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="confirmHandover" required>
+                        <label for="confirmHandover">I confirm that I have completed all project handovers</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="confirmAssets" required>
+                        <label for="confirmAssets">I confirm that I will return all company assets on my last working day</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="confirmDocs" required>
+                        <label for="confirmDocs">I confirm that all documentation is up to date and accessible</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="comments">Additional Comments</label>
+                    <textarea id="comments" class="form-control" rows="4"></textarea>
+                </div>
+
+                <div class="submit-section">
+                    <button type="button" class="btn btn-secondary" id="saveProgress">Save Progress</button>
+                    <button type="submit" class="btn btn-primary">Submit Offboarding</button>
+                </div>
+            </div>
+        </form>
+    </main>
+    <script>
+   document.addEventListener('DOMContentLoaded', function () {
+    // Get all necessary DOM elements
+    const navItems = document.querySelectorAll('.nav-item');
+    const sections = document.querySelectorAll('.section');
+    const form = document.getElementById('offboardingForm');
+    const saveProgressBtn = document.getElementById('saveProgress');
+    let currentSection = 'personal';
+    let uploadedFiles = [];
+
+    // Comprehensive Assets Checkbox Validation
+    function validateAssetsCheckboxes() {
+        const checkboxes = {
+            laptop: document.getElementById('laptop'),
+            monitor: document.getElementById('monitor'),
+            phone: document.getElementById('phone'),
+            accessCard: document.getElementById('accessCard')
+        };
+
+        const additionalAssetsTextarea = document.getElementById('additionalAssets');
+        
+        // Track validation state
+        let isValid = true;
+        
+        // Create error container if it doesn't exist
+        let errorContainer = document.getElementById('assets-checkbox-error');
+        if (!errorContainer) {
+            errorContainer = document.createElement('div');
+            errorContainer.id = 'assets-checkbox-error';
+            errorContainer.className = 'error';
+            document.querySelector('#assets .form-group').appendChild(errorContainer);
+        }
+
+        // Reset error messages
+        errorContainer.textContent = '';
+        errorContainer.style.display = 'none';
+
+        // Validation logic
+        const validationErrors = [];
+
+        // Specific validation for each checkbox
+        const checkboxValidations = {
+            laptop: {
+                validate: () => checkboxes.laptop.checked,
+                errorMessage: 'Please confirm laptop status or reason for non-return'
+            },
+            monitor: {
+                validate: () => checkboxes.monitor.checked,
+                errorMessage: 'Please confirm monitor status or reason for non-return'
+            },
+            phone: {
+                validate: () => checkboxes.phone.checked,
+                errorMessage: 'Please confirm company phone status or reason for non-return'
+            },
+            accessCard: {
+                validate: () => checkboxes.accessCard.checked,
+                errorMessage: 'Please confirm access card status or reason for non-return'
+            }
+        };
+
+        // Perform validation for each checkbox
+        Object.entries(checkboxValidations).forEach(([checkboxName, validation]) => {
+            if (!validation.validate()) {
+                isValid = false;
+                validationErrors.push(validation.errorMessage);
+            }
+        });
+
+        // Check for additional assets if no checkboxes are checked
+        const anyCheckboxChecked = Object.values(checkboxes).some(checkbox => checkbox.checked);
+        if (!anyCheckboxChecked && !additionalAssetsTextarea.value.trim()) {
+            isValid = false;
+            validationErrors.push('Please select at least one hardware item or specify additional assets in the textarea');
+        }
+
+        // Display errors if any
+        if (validationErrors.length > 0) {
+            errorContainer.textContent = validationErrors.join(' | ');
+            errorContainer.style.display = 'block';
+        }
+
+        return isValid;
+    }
+
+    // Helper function to remove spaces
+    function removeSpaces(value) {
+        return value.replace(/\s/g, '');
+    }
+
+    // Function to validate email format
+    function isValidEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    // Function to validate the year as a 4-digit number
+    function isValidYear(year) {
+        return /^\d{4}$/.test(year);
+    }
+
+    // Function to validate date format and range
+    function isValidDate(date) {
+        const selectedDate = new Date(date);
+        const today = new Date();
+        const year = selectedDate.getFullYear();
+
+        // Validate that the year is a 4-digit number and is a valid date
+        if (!isValidYear(year)) {
+            return false;
+        }
+
+        return selectedDate >= today;
+    }
+
+    // Function to validate alphanumeric (Employee ID)
+    function isValidEmpId(empId) {
+        return /^ATS0\d{3}$/.test(empId);
+    }
+
+    // Function to validate alphabetic characters and spaces
+    function isValidAlpha(value) {
+        if (!/^[a-zA-Z\s]+$/.test(value)) {
+            return false;
+        }
+
+        const nonSpaceChars = value.replace(/\s/g, '');
+        return nonSpaceChars.length >= 5;
+    }
+
+    // Function to show error message
+    function showError(input, message) {
+        const errorElement = input.nextElementSibling;
+        if (errorElement && errorElement.classList.contains('error')) {
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+            input.classList.add('error-input');
+        }
+    }
+
+    // Function to hide error message
+    function hideError(input) {
+        const errorElement = input.nextElementSibling;
+        if (errorElement && errorElement.classList.contains('error')) {
+            errorElement.style.display = 'none';
+            input.classList.remove('error-input');
+        }
+    }
+
+    // Function to validate a section
+    function validateSection(sectionId) {
+        // Special validation for assets section
+        if (sectionId === 'assets') {
+            return validateAssetsCheckboxes();
+        }
+
+        const section = document.getElementById(sectionId);
+        const requiredInputs = section.querySelectorAll('[required]');
+        let isValid = true;
+
+        requiredInputs.forEach(input => {
+            // Basic required field validation
+            if (!input.value.trim()) {
+                isValid = false;
+                showError(input, 'This field is required');
+                return;
+            }
+
+            // Specific validation for different input types
+            switch (input.type) {
+                case 'email':
+                    if (!isValidEmail(input.value)) {
+                        isValid = false;
+                        showError(input, 'Please enter a valid email address');
+                    }
+                    break;
+
+                case 'date':
+                    if (!isValidDate(input.value)) {
+                        isValid = false;
+                        showError(input, 'Last working day must be in the future & Accepts only 4 digits in Year.');
+                    }
+                    break;
+
+                case 'text':
+                case 'textarea':
+                    if (sectionId === 'personal') {
+                        if (input.id === 'fullName' || input.id === 'position') {
+                            if (!isValidAlpha(input.value.trim())) {
+                                isValid = false;
+                                showError(input, 'Please enter at least 5 alphabetic characters');
+                            }
+                        } else if (input.id === 'empId') {
+                            if (!isValidEmpId(input.value.trim())) {
+                                isValid = false;
+                                showError(input, 'Invalid Employee ID (e.g., ATS0XXX)');
+                            }
+                        } else if (input.value.trim().length < 5) {
+                            isValid = false;
+                            showError(input, 'Please enter at least 5 characters');
+                        }
+                    } else {
+                        if (removeSpaces(input.value.trim()).length < 5) {
+                            isValid = false;
+                            showError(input, 'Please enter at least 5 characters (excluding spaces)');
+                        }
+                    }
+                    break;
+
+                case 'checkbox':
+                    if (!input.checked) {
+                        isValid = false;
+                        showError(input, 'This confirmation is required');
+                    }
+                    break;
+            }
+
+            if (isValid) {
+                hideError(input);
+            }
+        });
+
+        return isValid;
+    }
+
+    // Function to update section status
+    function updateSectionStatus(sectionId, status) {
+        const section = document.getElementById(sectionId);
+        const statusPill = section.querySelector('.status-pill');
+
+        statusPill.className = 'status-pill status-' + status;
+        statusPill.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+    }
+
+    // Navigation handling
+    navItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const targetSection = item.getAttribute('data-section');
+
+            // Validate current section before moving
+            if (currentSection && currentSection !== 'confirmation') {
+                if (!validateSection(currentSection)) {
+                    alert('Please complete all required fields in the current section');
+                    return;
+                }
+                updateSectionStatus(currentSection, 'completed');
+            }
+
+            // Update navigation
+            navItems.forEach(nav => nav.classList.remove('active'));
+            item.classList.add('active');
+
+            // Update sections
+            sections.forEach(section => {
+                section.classList.remove('active');
+                if (section.id === targetSection) {
+                    section.classList.add('active');
+                }
+            });
+
+            currentSection = targetSection;
+        });
+    });
+
+    // File upload handling
+    const fileUpload = document.querySelector('.file-upload');
+
+    function handleFiles(files) {
+        const fileArray = Array.from(files);
+        uploadedFiles = [...uploadedFiles, ...fileArray];
+
+        // Update UI to show selected files
+        const fileList = uploadedFiles.map(file =>
+            `<div class="file-item">
+                ${file.name} (${(file.size / 1024).toFixed(2)} KB)
+                <button type="button" class="remove-file" data-name="${file.name}">×</button>
+            </div>`
+        ).join('');
+
+        const uploadArea = fileUpload.querySelector('p');
+        uploadArea.innerHTML = fileList || 'Drag and drop files here or click to browse';
+
+        // Add click handlers to remove buttons
+        document.querySelectorAll('.remove-file').forEach(button => {
+            button.onclick = (e) => {
+                e.stopPropagation();
+                const fileName = button.getAttribute('data-name');
+                uploadedFiles = uploadedFiles.filter(f => f.name !== fileName);
+                handleFiles(uploadedFiles);
+            };
+        });
+    }
+
+    // Click to upload
+    fileUpload.addEventListener('click', () => {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.multiple = true;
+        input.accept = '.pdf,.doc,.docx,.txt';
+
+        input.onchange = (e) => handleFiles(e.target.files);
+        input.click();
+    });
+
+    // Drag and drop
+    fileUpload.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        fileUpload.classList.add('drag-over');
+    });
+
+    fileUpload.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        fileUpload.classList.remove('drag-over');
+    });
+
+    fileUpload.addEventListener('drop', (e) => {
+        e.preventDefault();
+        fileUpload.classList.remove('drag-over');
+        handleFiles(e.dataTransfer.files);
+    });
+
+    // Save progress functionality
+    saveProgressBtn.addEventListener('click', () => {
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+
+        // Add file information
+        data.uploadedFiles = uploadedFiles.map(file => ({
+            name: file.name,
+            size: file.size,
+            type: file.type
+        }));
+
+        // Save to localStorage with timestamp
+        localStorage.setItem('offboardingProgress', JSON.stringify({
+            data: data,
+            timestamp: new Date().toISOString()
+        }));
+
+        alert('Progress saved successfully!');
+    });
+
+    // Load saved progress
+    const savedProgress = localStorage.getItem('offboardingProgress');
+    if (savedProgress) {
+        const { data } = JSON.parse(savedProgress);
+
+        // Populate form fields
+        Object.entries(data).forEach(([key, value]) => {
+            const input = form.querySelector(`[name="${key}"]`);
+            if (input) {
+                if (input.type === 'checkbox') {
+                    input.checked = value === 'on';
+                } else {
+                    input.value = value;
+                }
+            }
+        });
+
+        // Restore file list if present
+        if (data.uploadedFiles) {
+            uploadedFiles = data.uploadedFiles;
+            handleFiles(uploadedFiles);
+        }
+    }
+
+    // Add event listeners for assets checkboxes and additional assets
+    const checkboxes = ['laptop', 'monitor', 'phone', 'accessCard'];
+    const additionalAssetsTextarea = document.getElementById('additionalAssets');
+
+    // Add change event listeners to each checkbox
+    checkboxes.forEach(checkboxId => {
+        const checkbox = document.getElementById(checkboxId);
+        checkbox.addEventListener('change', validateAssetsCheckboxes);
+    });
+
+    // Add input event listener to additional assets textarea
+    additionalAssetsTextarea.addEventListener('input', validateAssetsCheckboxes);
+
+    // Form submission
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Validate all sections
+        const sectionIds = ['personal', 'projects', 'assets', 'documents', 'confirmation'];
+        let isValid = true;
+
+        for (const sectionId of sectionIds) {
+            if (!validateSection(sectionId)) {
+                isValid = false;
+                // Switch to the first invalid section
+                document.querySelector(`[data-section="${sectionId}"]`).click();
+                break;
+            }
+        }
+
+        if (isValid) {
+            try {
+                // Collect all form data
+                const formData = {
+                    fullName: document.getElementById('fullName').value,
+                    empId: document.getElementById('empId').value,
+                    position: document.getElementById('position').value,
+                    lastDay: document.getElementById('lastDay').value,
+                    activeProjects: document.getElementById('activeProjects').value,
+                    handoverPerson: document.getElementById('handoverPerson').value,
+                    repositories: document.getElementById('repositories').value,
+                    accessCredentials: document.getElementById('accessCredentials').value,
+                    knowledgeBase: document.getElementById('knowledgeBase').value,
+                    comments: document.getElementById('comments').value,
+                    // Collect checkbox values
+                    laptop: document.getElementById('laptop').checked,
+                    monitor: document.getElementById('monitor').checked,
+                    phone: document.getElementById('phone').checked,
+                    accessCard: document.getElementById('accessCard').checked,
+                    additionalAssets: document.getElementById('additionalAssets').value,
+                    // Add metadata
+                    submissionDate: new Date().toISOString(),
+                    status: 'Pending',
+                    id: 'EMP-' + Date.now() // Unique identifier
+                };
+
+                // Get existing submissions or initialize empty array
+                let existingSubmissions = JSON.parse(localStorage.getItem('offboardingSubmissions') || '[]');
+
+                // Add new submission
+                existingSubmissions.push(formData);
+
+                // Save back to localStorage
+                localStorage.setItem('offboardingSubmissions', JSON.stringify(existingSubmissions));
+
+                alert('Offboarding form submitted successfully! The HR team will review your submission.');
+
+                // Reset the form
+                form.reset();
+                uploadedFiles = [];
+                handleFiles([]);
+
+                // Return to first section
+                document.querySelector('[data-section="personal"]').click();
+
+            } catch (error) {
+                console.error('Submission error:', error);
+                alert('An error occurred while submitting the form. Please try again.');
+            }
+        }
+    });
+
+    // Real-time validation
+    form.querySelectorAll('input, textarea, select').forEach(input => {
+        input.addEventListener('input', () => {
+            if (input.hasAttribute('required')) {
+                if (!input.value.trim()) {
+                    showError(input, 'This field is required');
+                } else if (input.value.trim().length < 5 && input.type !== 'date') {
+                    showError(input, 'Please enter at least 5 characters');
+                } else {
+                    hideError(input);
+                }
+            }
+        });
+    });
+});
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icons/6.6.6/css/flag-icons.min.css">
+    <!-- Bootstrap Icons for Chevron -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
+    
+    <!-- My CSS -->
+    <link rel="stylesheet" href="../Home/2.css">
+</head>
+<body>
+    <section class="animated-header">
+        <nav style="display: flex;">
+            <img src="../Assests/ATS Wallpaper.jpg" style="height: 100px; margin-left: 0px;border-radius: 20%; margin-top: 10px;" alt="">
+            <section id="content">
+                <nav>
+                    <i class="bi bi-chevron-compact-right"></i>
+                </nav>
+            </section>
+            <div class="icons">
+                <div style="font-weight: 200;font-style: italic; font-size: x-large;">Hello, <span id="username"></span>👋</div>
+                <div id="search-wrapper">
+
+                    <i class="search-icon fas fa-search"></i>
+                  
+                  <input type="text" id="search" placeholder="Search here...">
+                  <i class="mic-icon fas fa-microphone"></i>
+                  <button id="search-button">Search</button>
+                  
+                </div>
+                <img width="45" height="45" src="https://img.icons8.com/external-linear-outline-icons-papa-vector/78/external-Exit-Full-Screen-interface-linear-outline-icons-papa-vector-2.png" alt="fullscreen-icon" class="fullscreen-icon" onclick="toggleFullscreen()"/>
+                <img width="25" height="25" src="https://img.icons8.com/ios/50/secured-letter--v1.png" alt="secured-letter--v1"/>
+                <img width="25" height="25" src="https://img.icons8.com/ios/50/appointment-reminders--v1.png" alt="appointment-reminders--v1"/>
+                <img width="25" height="25" src="https://img.icons8.com/ios/50/geography--v2.png" alt="geography--v2" onclick="toggleCountryDropdown()"/> <span class="language-selector" onclick="toggleCountryDropdown()">English</span>
+
+  <!-- Dropdown menu with language options -->
+            <div class="country-dropdown" id="countryDropdown">
+            <ul class="language-list">
+                <li><span class="fi fi-in"></span> Hindi (India)</li><hr>
+                <li><span class="fi fi-fr"></span> Français (France, Canada)</li><hr>
+                <li><span class="fi fi-sa"></span> Arabic (Saudi Arabia, Middle East)</li><hr>
+                <li><span class="fi fi-id"></span> Indonesian (Indonesia)</li><hr>
+                <li><span class="fi fi-gb"></span> English (UK, US)</li><hr>
+                <li><span class="fi fi-it"></span> Italian (Italy)</li><hr>
+                <li><span class="fi fi-ru"></span> Russian (Russia)</li>
+            </ul>
+            </div>
+            </div>
+            <!-- profile -->
+            <div class="profile-section">
+                <a href="../HRM SERVICES/Employee_Profile/Employee_profile.html" target="contentFrame"><img src="../Assests/ATS Wallpaper.jpg" alt="Profile" class="profile-img"></a>
+                <!-- <img id="profile-img" src="https://t4.ftcdn.net/jpg/06/22/51/55/360_F_622515579_3hTcTIaXrKjoQIJAnvejjdoGGvPHmVJi.jpg" alt="Profile" class="profile-img"> -->
+                <!-- <h2><span id="username"></span></h2> -->
+                <div class="online-dot"></div>
+                <!-- <span class="profile-name">TIVARI LATISH</span> -->
+                <!-- <span class="username" id="profileUsername"></span> -->
+                 <span>Active</span>
+                <div class="profile-dropdown">
+                    <i class="bi bi-chevron-down" style="margin-left: 10px;"></i>
+                    <!-- Dropdown Menu -->
+                    <!-- <div class="profile-menu">
+                        <div class="dropdown-menu" role="menu">
+                            <div class="dropdown-header">
+                              <div class="header-content">
+                                <div class="header-avatar" aria-label="avatar"></div>
+                                <div class="header-info">
+                                  <div class="header-name"><span id="firstusername">User</span></div>
+                                  <div class="header-email" style="margin-left: 10%;">abc@example.com</div><br>
+                                </div>
+                              </div>
+                            </div>
+                            
+                            <nav>
+                                <hr><br>
+                              <a href="#profile" class="menu-item" role="menuitem">
+                                <i class="fas fa-user-circle" style="margin-left: 10%;"></i>
+                                <span style="color: black; margin-left: 5%;">Profile</span>
+                              </a><br><br>
+                              <a href="#chat" class="menu-item" role="menuitem">
+                                <i class="fas fa-comment-dots" style="margin-left: 10%;"></i>
+                                <span style="color: black; margin-left: 5%;">Chat</span>
+                              </a><br><br>
+                              <a href="#inbox" class="menu-item" role="menuitem">
+                                <i class="fas fa-inbox" style="margin-left: 10%;"></i>
+                                <span style="color: black; margin-left: 5%;">Inbox</span>
+                              </a><br><br>
+                              <a href="#add-account" class="menu-item" role="menuitem">
+                                <i class="fas fa-user-plus" style="margin-left: 10%;"></i>
+                                <span style="color: black; margin-left: 5%;">Add Account</span>
+                              </a><br><br>
+                              <hr>
+                            </nav>
+                            <div class="logout-section">
+                              <a href="#logout" class="menu-item logout-button" role="menuitem"><br>
+                                <i class="fas fa-sign-out-alt" style="margin-left: 10%;"></i>
+                                <span style="color: black; margin-left: 5%;">Log Out</span>
+                              </a>
+                            </div>
+                          </div>
+                    </div> -->
+                </div>
+            </div>
+        </nav> 
+    </section>
+    <div style="display: flex; height: 100%;">
+        <section id="sidebar">
+            <ul class="side-menu top">
+                <!-- Dashboard Dropdown -->
+                <li class="active" onclick="toggleSubmenu('dashboard-submenu')">
+                    <a href="javascript:void(0)" style="height: 48px;">
+                        <i class='bx bxs-dashboard'></i>
+                        <span class="text">Dashboard</span>
+                        <i class='bx bx-chevron-down submenu-toggle'></i>
+                    </a>
+                    <ul id="dashboard-submenu" class="submenu">
+                        <li><a href="#">HRM Dashboard</a></li>
+                        <li><a href="#">Employee Dashboard</a></li>
+                        <li><a href="#">CRM Analytics</a></li>
+                    </ul>
+                </li>
+    
+                <!-- Employee Services Dropdown -->
+                <li onclick="toggleSubmenu('employee-services-submenu')">
+                    <a href="javascript:void(0)" style="height: 48px;">
+                        <i class='bx bx-group'></i>
+                        <span class="text">HRM</span>
+                        <i class='bx bx-chevron-down submenu-toggle'></i>
+                    </a>
+                    <ul id="employee-services-submenu" class="submenu">
+
+                        <li onclick="toggleSubmenu('employee-services-1')">
+                            <a href="javascript:void(0)" style="height: 48px;">
+                                <span class="text">Employee_Services</span>
+                                <i class='bx bx-chevron-down submenu-toggle'></i>
+                            </a>
+                            <ul id="employee-services-1" class="submenu">
+                                <li><a href="../HRMS_HTML_pages/Attendance/Punch-In.html" target="contentFrame">Attendance Management</a></li>
+                                <li><a href="../HRMS_HTML_pages/Payroll-software/Payroll.html" target="contentFrame">Payroll Software</a></li>
+                                <li><a href="../HRMS_HTML_pages/Leave-Management/Leave.html" target="contentFrame">Leave Software</a></li>
+                                <li><a href="../HRMS_HTML_pages/Claims-Software/Claim-front.html" target="contentFrame">Claims Software</a></li>
+                                <li><a href="../HRMS_HTML_pages/Appraisal-software/Appraisal.html" target="contentFrame">Appraisal Software</a></li>
+                                <li><a href="../HRMS_HTML_pages/Staff_Management/Employee'sBio.html" target="contentFrame">Staff Management</a></li>
+                                <li><a href="../HRMS_HTML_pages/Payroll&Payslip/payslip.html" target="contentFrame">Payroll Processing/Payslip</a></li>
+                                <!-- <li><a href="../HRMS_HTML_pages/ESI&PF/ESI.html" target="contentFrame">ESI/Provident Fund</a></li> -->
+                                <li><a href="../HRMS_HTML_pages/My-Assests/My Assests.html" target="contentFrame">My Assets</a></li>
+                                <!-- <li><a href="../HRMS_HTML_pages/Assests-Management/AssestsManag.html" target="contentFrame">Assets Management</a></li> -->
+                                <li><a href="../HRMS_HTML_pages/Carrer-Progression/Carrer-prog.html" target="contentFrame">Career Progression</a></li>
+                                <li><a href="../HRMS_HTML_pages/Increament/Increament.html" target="contentFrame">Increment & Bonus</a></li>
+                                <li><a href="../HRMS_HTML_pages/Notifications to staff/Notification.html" target="contentFrame">Notifications to Staffs</a></li>
+                                <li><a href="../HRMS_HTML_pages/Training-Management/Training.html" target="contentFrame">Training Management</a></li>
+                            </ul>
+                        </li>
+
+                        <li onclick="toggleSubmenu('HRM-2')">
+                            <a href="javascript:void(0)" style="height: 48px;">
+                                <span class="text">HRM_Services</span>
+                                <i class='bx bx-chevron-down submenu-toggle'></i>
+                            </a>
+                            <ul id="HRM-2" class="submenu">
+                                <li><a href="#">Employee</a></li>
+                                <li><a href="../HRM SERVICES/Employee_Profile/Employee_profile.html" target="contentFrame">Employee Profile</a></li>
+                                <li><a href="../HRM SERVICES/Designation/Designation.html" target="contentFrame">Designations</a></li>
+                                <li><a href="../HRM SERVICES/Admin_Attendance/Admin.html" target="contentFrame">Admin Attendance</a></li>
+                                <li><a href="../HRM SERVICES/Employee_Attendance/EmpAtten.html" target="contentFrame">Employee Attendance</a></li>
+                                <li><a href="#">Bio Metric Attendance</a></li>
+                                <li><a href="../HRM SERVICES/Office_Loan/OfficeLoan.html" target="contentFrame">Office Loan</a></li>
+                                <li><a href="#">Personal Loan</a></li>
+                                <li><a href="#">Employee Leaves</a></li>
+                                <li><a href="#">Admin Leaves</a></li>
+                                <li><a href="../HRM SERVICES/Holidays/Holiday.html" target="contentFrame">Holidays</a></li>
+                                <li><a href="../HRM SERVICES/Timesheet/Timesheet.html" target="contentFrame">Time Sheet</a></li>
+                            </ul>
+                        </li>
+
+                        <li onclick="toggleSubmenu('HRM-3')">
+                            <a href="javascript:void(0)" style="height: 48px;">
+                                <span class="text">HR_Services</span>
+                                <i class='bx bx-chevron-down submenu-toggle'></i>
+                            </a>
+                            <ul id="HRM-3" class="submenu">
+                                <li><a href="../HR_SERVICES/On-boarding/On-boarding.html" target="contentFrame">On-Boarding</a></li>
+                                <li><a href="../HR_SERVICES/Off-Boarding/Offboarding.html" target="contentFrame">Off-Boarding</a></li>
+                                <li><a href="../HR_SERVICES/Attendance/attend.html" target="contentFrame">Attendance</a></li>
+                                <!-- <li><a href="../HRMS_HTML_pages/Payroll-software/Payroll.html" target="contentFrame">Payroll Software</a></li> -->
+                                <li><a href="../HR_SERVICES/Leave-Management/Leave.html" target="contentFrame">Leave Software</a></li>
+                                <li><a href="../HR_SERVICES/Claims-software/Claims.html" target="contentFrame">Claims Software</a></li>
+                                <li><a href="../HR_SERVICES/Appraisal-software/Appraisal.html" target="contentFrame">Appraisal Software</a></li>
+                                <!-- <li><a href="../HRMS_HTML_pages/Staff_Management/Employee'sBio.html" target="contentFrame">Staff Management</a></li> -->
+                                <li><a href="../HR_SERVICES/Payroll&Payslip/payslip.html" target="contentFrame">Payroll Processing/Payslip</a></li>
+                                <li><a href="../HR_SERVICES/ESI&PF/ESI.html" target="contentFrame">ESI/Provident Fund</a></li>
+                                <li><a href="../HRMS_HTML_pages/Assests-Management/AssestsManag.html" target="contentFrame">Assets Management</a></li>
+                                <li><a href="../HR_SERVICES/Increament/Increament.html" target="contentFrame">Increment & Bonus</a></li>
+                                <li><a href="../HR_SERVICES/Notifications to staff/Notification.html" target="contentFrame">Notifications to Staffs</a></li>
+                                <li><a href="../HR_SERVICES/Training-Management/Training.html" target="contentFrame">Training Management</a></li>
+                            </ul>
+                        </li>
+
+                        <li onclick="toggleSubmenu('HRM-4')">
+                            <a href="javascript:void(0)" style="height: 48px;">
+                                <span class="text">Employer_Services</span>
+                                <i class='bx bx-chevron-down submenu-toggle'></i>
+                            </a>
+                            <ul id="HRM-4" class="submenu">
+                                <li><a href="../Employer_Services/Attendance_manag/attend.html" target="contentFrame">Attendance Management</a></li>
+                                <li><a href="../Employer_Services/Task_Allocation/Task.html" target="contentFrame">Task Allocation</a></li>
+                                <li><a href="../Employer_Services/Shift_&_Rooster/Shift.html" target="contentFrame">Shift & Rooster</a></li>
+                                <li><a href="../Employer_Services/Appraisal_to_Emp/Appraisal.html" target="contentFrame">Appraisal Software</a></li>
+                                <li><a href="../Employer_Services/Leave_Approval/Leave.html" target="contentFrame">Leave Approval</a></li>
+                                <li><a href="../Employer_Services/Notifications/Notification.html" target="contentFrame">Notification to Team</a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </li>
+
+                 <!-- CRM Dropdown -->
+                 <li onclick="toggleSubmenu('crm-submenu')">
+                    <a href="javascript:void(0)" style="height: 48px;">
+                        <i class="bx bx-money"></i>
+                        <span class="text">CRM</span>
+                        <i class='bx bx-chevron-down submenu-toggle'></i>
+                    </a>
+                    <ul id="crm-submenu" class="submenu">
+                        <li><a href="../CRM/Strategic_CRM/Strategic.html" target="contentFrame">Strategic CRM</a></li>
+                        <li><a href="../CRM/Analytical_CRM/Analytical.html" target="contentFrame">Analytical CRM</a></li>
+                        <li><a href="../CRM/Operational_CRM/Oper.html" target="contentFrame">Operational CRM</a></li>
+                        <li><a href="../CRM/Collaborative_CRM/Collaborative.html" target="contentFrame">Collaborative CRM</a></li>
+                    </ul>
+                </li>
+    
+                <!-- Analytics Dropdown -->
+                <li onclick="toggleSubmenu('analytics-submenu')">
+                    <a href="javascript:void(0)" style="height: 48px;">
+                        <i class='bx bx-line-chart'></i>
+                        <span class="text">Analytics</span>
+                        <i class='bx bx-chevron-down submenu-toggle'></i>
+                    </a>
+                    <ul id="analytics-submenu" class="submenu">
+                        <li><a href="#">View Analytics</a></li>
+                        <li><a href="#">Compare Stats</a></li>
+                    </ul>
+                </li>
+
+
+                <!-- Apps Dropdown -->
+                <li onclick="toggleSubmenu('apps-submenu')">
+                    <a href="javascript:void(0)" style="height: 48px;">
+                        <i class="bx bx-mobile-alt"></i>
+                        <span class="text">Apps</span>
+                        <i class='bx bx-chevron-down submenu-toggle'></i>
+                    </a>
+                    <ul id="apps-submenu" class="submenu">
+                        <li><a href="#">Chats</a></li>
+                        <li><a href="#">Email Inbox</a></li>
+                        <li><a href="#">Contacts</a></li>
+                        <li><a href="#">Calendar</a></li>
+                    </ul>
+                </li>
+    
+                <!-- CRM Dropdown -->
+                <li onclick="toggleSubmenu('payroll-submenu')">
+                    <a href="javascript:void(0)" style="height: 48px;">
+                        <i class="bx bx-money"></i>
+                        <span class="text">Payroll</span>
+                        <i class='bx bx-chevron-down submenu-toggle'></i>
+                    </a>
+                    <ul id="payroll-submenu" class="submenu">
+                        <li><a href="#">Payroll Overview</a></li>
+                        <li><a href="#">Manage Payroll</a></li>
+                    </ul>
+                </li>
+    
+                <!-- Message Dropdown -->
+                <li onclick="toggleSubmenu('message-submenu')">
+                    <a href="javascript:void(0)" style="height: 48px;">
+                        <i class='bx bxs-message-dots'></i>
+                        <span class="text">Expenses</span>
+                        <i class='bx bx-chevron-down submenu-toggle'></i>
+                    </a>
+                    <ul id="message-submenu" class="submenu">
+                        <li><a href="#">New Expense</a></li>
+                        <li><a href="#">Expense Overview</a></li>
+                    </ul>
+                </li>
+    
+                <!-- Team Dropdown -->
+                <li onclick="toggleSubmenu('team-submenu')">
+                    <a href="javascript:void(0)" style="height: 48px;">
+                        <i class="bx bx-user-circle"></i>
+                        <span class="text">Team</span>
+                        <i class='bx bx-chevron-down submenu-toggle'></i>
+                    </a>
+                    <ul id="team-submenu" class="submenu">
+                        <li><a href="#">View Team</a></li>
+                        <li><a href="#">Add New Member</a></li>
+                    </ul>
+                </li>
+    
+                <!-- Clients Dropdown -->
+                <li onclick="toggleSubmenu('Clients-submenu')">
+                    <a href="javascript:void(0)" style="height: 48px;">
+                        <i class='bx bx-briefcase'></i>
+                        <span class="text">Clients</span>
+                        <i class='bx bx-chevron-down submenu-toggle'></i>
+                    </a>
+                    <ul id="Clients-submenu" class="submenu">
+                        <li><a href="#">Client A</a></li>
+                        <li><a href="#">Client B</a></li>
+                    </ul>
+                </li>
+    
+                <!-- Projects Dropdown -->
+                <li onclick="toggleSubmenu('projects-submenu')">
+                    <a href="javascript:void(0)" style="height: 48px;">
+                        <i class="bx bx-task"></i>
+                        <span class="text">Projects</span>
+                        <i class='bx bx-chevron-down submenu-toggle'></i>
+                    </a>
+                    <ul id="projects-submenu" class="submenu">
+                        <li><a href="#">Project A</a></li>
+                        <li><a href="#">Project B</a></li>
+                    </ul>
+                </li>
+    
+                <!-- Activities Dropdown -->
+                <li onclick="toggleSubmenu('activities-submenu')">
+                    <a href="javascript:void(0)" style="height: 48px;">
+                        <i class='bx bx-calendar-event'></i>
+                        <span class="text">Activities</span>
+                        <i class='bx bx-chevron-down submenu-toggle'></i>
+                    </a>
+                    <ul id="activities-submenu" class="submenu">
+                        <li><a href="#">Activity A</a></li>
+                        <li><a href="#">Activity B</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="side-menu" style="margin-top: 25px; border-radius: 10px;  background: linear-gradient(to right, #4f8ff7, #a2c5f7);">
+                <li>
+                    <a href="#" style="height: 50px;">
+                        <i class='bx bxs-cog'></i>
+                        <span class="text">Settings</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="logout" style="height: 50px;" onclick="logout()">
+                        <i class='bx bxs-log-out-circle'></i>
+                        <span class="text">Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </section>
+        
+        <section style="width: 100%;">
+            <iframe id="content-iframe" src="../Dashboard-Home/Home.html" name="contentFrame"  style="width: 100%; height: 100%; border: none;"></iframe>
+        </section>
+    </div>
+    <script src="../Home/2.js"></script>
+    <script>
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Load user data
+    const currentUser = localStorage.getItem('currentUser');
+    const currentUserImage = localStorage.getItem('currentUserImage');
+    
+    // Update username displays
+    const usernameElements = document.querySelectorAll('#username, #firstusername');
+    usernameElements.forEach(element => {
+        if (element) {
+            element.textContent = currentUser || 'User';
+        }
+    });
+
+    // Update all profile images
+    const profileImages = document.querySelectorAll('.profile-img');
+    profileImages.forEach(img => {
+        if (img && currentUserImage) {
+            img.src = currentUserImage;
+            img.style.width = '70px';
+            img.style.height = '70px';
+            img.style.borderRadius = '50%';
+            img.style.objectFit = 'cover';
+        }
+    });
+});
+
+// Add logout function if not already present
+function logout() {
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('currentUserImage');
+    window.location.href = 'login.html'; // Adjust the path as needed
+}
+
+  // Toggle dropdown menu on click
+  document.querySelector('.profile-section').addEventListener('click', function() {
+        const menu = document.querySelector('.profile-menu');
+        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    });
+
+    // Toggle dropdown menu on click
+document.querySelector('.profile-section').addEventListener('click', function() {
+    this.classList.toggle('active');  // Toggle active class for showing the dropdown menu
+});
+    </script>
+</body>
+</html>

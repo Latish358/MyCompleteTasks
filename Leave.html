@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Request Form</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="./Leave.css"> -->
+     <style>
+        
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #71b7e6, #9b59b6);
+    padding: 20px;
+}
+
+.container {
+    max-width: 700px;
+    margin: 0 auto;
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    animation: fadeInDown 1s;
+}
+
+h2 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    animation: fadeInLeft 1s;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: 500;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #9b59b6;
+    box-shadow: 0 0 8px rgba(155,89,182,0.2);
+}
+
+textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    background: #9b59b6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    animation: bounceIn 1s;
+}
+
+button:hover {
+    background: #8e44ad;
+    transform: translateY(-2px);
+}
+
+#leaveDetails {
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 8px;
+    background: #f8f9fa;
+    animation: fadeIn 1s;
+}
+
+.success-message {
+    padding: 15px;
+    background: #d4edda;
+    color: #155724;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: none;
+    animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+  /* Responsive Styles */
+  @media (max-width: 1024px) {
+            .container {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 1.6em;
+            }
+
+            .form-group input, .form-group select, .form-group textarea {
+                padding: 10px;
+            }
+
+            button {
+                padding: 12px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+                padding: 15px;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            .form-group {
+                margin-bottom: 15px;
+            }
+
+            .form-group input, .form-group select, .form-group textarea {
+                padding: 10px;
+            }
+
+            button {
+                padding: 12px;
+                font-size: 14px;
+            }
+
+            #leaveDetails {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h2 {
+                font-size: 1.3em;
+            }
+
+            .container {
+                width: 90%;
+                padding: 10px;
+            }
+
+            .form-group {
+                margin-bottom: 12px;
+            }
+
+            .form-group input, .form-group select, .form-group textarea {
+                padding: 8px;
+                font-size: 14px;
+            }
+
+            button {
+                padding: 10px;
+                font-size: 13px;
+            }
+
+            .success-message {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 375px) {
+            h2 {
+                font-size: 1.2em;
+            }
+
+            .form-group {
+                margin-bottom: 10px;
+            }
+
+            .form-group input, .form-group select, .form-group textarea {
+                padding: 8px;
+                font-size: 13px;
+            }
+
+            button {
+                padding: 10px;
+                font-size: 12px;
+            }
+        }
+
+     </style>
+</head>
+<body>
+    <div class="container">
+        <div id="successMessage" class="success-message">
+            Leave request submitted successfully!
+        </div>
+        
+        <section class="leave-form">
+            <h2 class="animate__animated animate__fadeInDown">Leave Application Form</h2>
+            <form id="leaveForm">
+                <div class="form-group animate__animated animate__fadeInLeft">
+                    <label for="employeeName">Name</label>
+                    <input type="text" id="employeeName" placeholder="Enter your name" required>
+                </div>
+
+                <div class="form-group animate__animated animate__fadeInLeft">
+                    <label for="employeeId">Employee ID</label>
+                    <input type="text" id="employeeId" placeholder="Enter your employee ID" required>
+                </div>
+
+                <div class="form-group animate__animated animate__fadeInLeft">
+                    <label for="leaveType">Leave Type</label>
+                    <select id="leaveType" required>
+                        <option value="">Select Leave Type</option>
+                        <option value="vacation">Vacation</option>
+                        <option value="sick">Sick Leave</option>
+                        <option value="personal">Personal Leave</option>
+                    </select>
+                </div>
+
+                <div class="form-group animate__animated animate__fadeInLeft">
+                    <label for="startDate">Start Date</label>
+                    <input type="date" id="startDate" required>
+                </div>
+
+                <div class="form-group animate__animated animate__fadeInLeft">
+                    <label for="endDate">End Date</label>
+                    <input type="date" id="endDate" required>
+                </div>
+
+                <div class="form-group animate__animated animate__fadeInLeft">
+                    <label for="comments">Comments</label>
+                    <textarea id="comments" placeholder="Enter your comments" required></textarea>
+                </div>
+
+                <button type="submit" class="animate__animated animate__bounceIn">Submit Request</button>
+            </form>
+        </section>
+
+        <section id="leaveDetails" style="display:none;">
+            <h3>Leave Request Details</h3>
+            <div id="requestSummary"></div>
+        </section>
+    </div>
+    <script>
+        
+        // Set the min attribute for both the start and end date to tomorrow's date
+        document.addEventListener('DOMContentLoaded', function() {
+            const startDateInput = document.getElementById('startDate');
+            const endDateInput = document.getElementById('endDate');
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1); // Add 1 day to the current date
+
+            // Format the date to YYYY-MM-DD
+            const tomorrowDate = tomorrow.toISOString().split('T')[0];
+
+            // Set the min attribute for both start and end date
+            startDateInput.min = tomorrowDate;
+            endDateInput.min = tomorrowDate;
+        });
+
+        document.getElementById('leaveForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('employeeName').value;
+            const id = document.getElementById('employeeId').value;
+            const type = document.getElementById('leaveType').value;
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            const comments = document.getElementById('comments').value;
+
+            // Validation
+            if (name.replace(/\s/g, '').length < 5 || !/^[A-Za-z\s]+$/.test(name)) {
+                alert('Please enter a valid name (minimum 5 characters, letters and spaces only)');
+                return;
+            }
+
+            if (id.length < 5 || !/^ATS0\d{3}$/.test(id)) {
+                alert('Please enter a valid employee ID (e.g : ATS0XXX)');
+                return;
+            }
+
+            if (!type) {
+                alert('Please select a leave type');
+                return;
+            }
+
+             // Validation for start and end dates to ensure the correct format and that startDate is not later than endDate
+            if (!/^\d{4}-\d{2}-\d{2}$/.test(startDate) || !/^\d{4}-\d{2}-\d{2}$/.test(endDate)) {
+                alert('Please enter valid dates in the format YYYY-MM-DD');
+                return;
+            }
+
+    // Ensure the year is 4 digits long for start and end date
+             const startYear = new Date(startDate).getFullYear();
+            const endYear = new Date(endDate).getFullYear();
+            if (startYear < 1000 || startYear > 9999 || endYear < 1000 || endYear > 9999) {
+                alert('Please enter a valid year (4 digits) for the start and end dates');
+                return;
+            }
+
+            if (new Date(startDate) > new Date(endDate)) {
+                alert('End date cannot be earlier than start date');
+                return;
+            }
+
+            if (!/[A-Za-z]/.test(comments) || comments.replace(/[^A-Za-z]/g, '').length < 10) {
+                alert('Please provide detailed comments with at least 10 alphabetical characters (letters only, spaces allowed)');
+                return;
+            }
+
+            // Store in localStorage
+            const leaveRequest = {
+                id: Date.now(),
+                name,
+                employeeId: id,
+                leaveType: type,
+                startDate,
+                endDate,
+                comments,
+                status: 'pending'
+            };
+
+            const existingRequests = JSON.parse(localStorage.getItem('leaveRequests') || '[]');
+            existingRequests.push(leaveRequest);
+            localStorage.setItem('leaveRequests', JSON.stringify(existingRequests));
+
+            // Show success message
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'block';
+            successMessage.className = 'success-message animate__animated animate__fadeIn';
+
+            // Reset form
+            this.reset();
+
+            // Hide success message after 3 seconds
+            setTimeout(() => {
+                successMessage.className = 'success-message animate__animated animate__fadeOut';
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 500);
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

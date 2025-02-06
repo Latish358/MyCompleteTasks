@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Onboarding Form</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+       * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f4f7f6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem;
+    line-height: 1.6;
+}
+
+.container {
+    width: 100%;
+    max-width: 1400px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.08);
+    padding: 3rem;
+}
+
+.A{
+    display: flex;
+    align-items: center; 
+    gap: 140px;
+}
+
+img{
+    height: 80px;
+    width: 140px;
+}
+
+h1{
+    color: #333;
+    text-shadow: 2px 2px 6px #b3b3b3;
+    font-weight: 600;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.form-label {
+    font-weight: 500;
+    color: #495057;
+    font-size: 0.95rem;
+}
+
+.form-section:has(input[name="aadharNo"]) .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* ID Input Container */
+.id-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.5rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+/* ID Number Input */
+.id-container input[type="text"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+}
+
+/* File Upload Container */
+.file-upload-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* File Upload Input */
+.file-upload-container input[type="file"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    background-color: white;
+}
+
+/* File Format Info */
+.file-format-info {
+    font-size: 0.875rem;
+    color: #6c757d;
+    margin-top: 0.25rem;
+}
+
+/* Preview Container */
+.preview-container {
+    min-height: 100px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    background-color: white;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .form-section:has(input[name="aadharNo"]) .form-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
+.remove-employment, .remove-education{
+    width: 30%;
+}
+
+.form-section {
+    margin-top: 30px;
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    align-items: center;
+    margin-top: 30px;
+}
+
+/* Specific Field Alignments */
+.form-grid > * {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-grid input, 
+.form-grid select, 
+.form-grid textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.form-grid label {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #495057;
+}
+
+/* Full-width fields */
+textarea[name="currentAddress"],
+textarea[name="permanentAddress"] {
+    grid-column: 1 / -1;
+}
+
+/* Checkbox and Label Alignment */
+#sameAsCurrentAddress {
+    margin-right: 0.5rem;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 1.5rem;
+    }
+    
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Dynamic Section Buttons */
+#addEducationBtn, 
+#addEmploymentBtn {
+    margin-top: 1rem;
+    width: 100%;
+    padding: 0.75rem;
+    background-color: blue;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#addEducationBtn:hover, 
+#addEmploymentBtn:hover {
+    background-color: rgb(111, 111, 255);
+}
+
+/* Signature Canvas */
+#signatureCanvas {
+    width: 100%;
+    max-width: 500px;
+    height: 250px;
+    border: 2px dashed #dee2e6;
+    margin: 1rem auto;
+    display: block;
+}
+
+/* File Input Styling */
+input[type="file"] {
+    border: 2px dashed #dee2e6;
+    padding: 0.5rem;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="A">
+            <img src="../Home/Assests/ATS Wallpaper.jpg" alt="Logo">
+            <h1>EMPLOYEE ONBOARDING FORM</h1>
+        </div>
+        <hr>
+        <form id="onboardingForm">
+            <!-- Personal Information Section -->
+            <div class="form-section">
+                <h2>Personal Information</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label" for="fullName">Full Name</label>
+                        <input type="text" id="fullName" name="fullName"  placeholder="Full Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email ID</label>
+                        <input type="email" id="email" name="email" placeholder="Email ID" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="phoneNo">Phone Number</label>
+                        <input type="tel" id="phoneNo" name="phoneNo" placeholder="Phone Number" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="alternateNumber">Alternate Number</label>
+                        <input type="tel" id="alternateNumber" name="alternateNumber" placeholder="Alternate Number" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="guardianName">Guardian Name</label>
+                        <input type="text" id="guardianName" name="guardianName" placeholder="Guardian Name">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="guardianContact">Guardian Contact Number</label>
+                        <input type="tel" id="guardianContact" name="guardianContact" placeholder="Guardian Contact Number">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="maritalStatus">Marital Status</label>
+                        <select id="maritalStatus" name="maritalStatus">
+                            <option value="">Select Status</option>
+                            <option value="single">Single</option>
+                            <option value="married">Married</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="gender">Gender</label>
+                        <select id="gender" name="gender" required>
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="bloodGroup">Blood Group</label>
+                        <select id="bloodGroup" name="bloodGroup" required>
+                            <option value="">Select Blood Group</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="dateOfBirth">Date of Birth</label>
+                        <input type="date" id="dateOfBirth" name="dateOfBirth" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Government ID Section -->
+            <div class="form-section">
+                <h2>Government Proof IDs</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label" for="aadharNo">Aadhar Number</label>
+                        <input type="text" id="aadharNo" name="aadharNo" placeholder="Enter Your Aadhar Number">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" style="margin-top: 25px;" for="aadhaarFile">Aadhar Card Document</label>
+                        <input type="file" id="aadhaarFile" name="aadhaarFile" required accept=".pdf,.jpg,.jpeg,.png">
+                        <div class="file-format-info">Accepted formats: PDF, JPG, PNG (Max size: 2MB)</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="panNo">PAN Number</label>
+                        <input type="text" id="panNo" name="panNo" placeholder="Enter Your Pan Number">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" style="margin-top: 25px;" for="panFile">PAN Card Document</label>
+                        <input type="file" id="panFile" name="panFile" required accept=".pdf,.jpg,.jpeg,.png">
+                        <div class="file-format-info">Accepted formats: PDF, JPG, PNG (Max size: 2MB)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Previous Employment Section -->
+            <div class="form-section">
+                <h2>Previous Employment Details</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label" for="pfNo">PF Number (Previous Company)</label>
+                        <input type="text" id="pfNo" name="pfNo" placeholder="Enter Your PF Number">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="uanNo">UAN Number</label>
+                        <input type="text" id="uanNo" name="uanNo" placeholder="Enter Your UAN Number">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Address Section -->
+            <div class="form-section">
+                <h2>Address Details</h2>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label class="form-label" for="currentAddress">Current Address</label>
+                        <textarea id="currentAddress" name="currentAddress" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="currentCity">Current City</label>
+                        <input type="text" id="currentCity" name="currentCity">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="currentState">Current State</label>
+                        <input type="text" id="currentState" name="currentState">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="currentPincode">Current Pincode</label>
+                        <input type="number" id="currentPincode" name="currentPincode">
+                    </div>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="sameAsCurrentAddress" name="sameAsCurrentAddress">
+                    <label for="sameAsCurrentAddress">Permanent Address same as Current Address</label>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label class="form-label" for="permanentAddress">Permanent Address</label>
+                        <textarea id="permanentAddress" name="permanentAddress" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="permanentCity">Permanent City</label>
+                        <input type="text" id="permanentCity" name="permanentCity">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="permanentState">Permanent State</label>
+                        <input type="text" id="permanentState" name="permanentState">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="permanentPincode">Permanent Pincode</label>
+                        <input type="number" id="permanentPincode" name="permanentPincode">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bank Details -->
+            <div class="form-section">
+                <h2>Bank Details</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label" for="bankNameAsPerForm">Account Holder Name</label>
+                        <input type="text" id="bankNameAsPerForm" name="bankNameAsPerForm" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="accountNo">Account Number</label>
+                        <input type="text" id="accountNo" name="accountNo" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="ifscCode">IFSC Code</label>
+                        <input type="text" id="ifscCode" name="ifscCode" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="branchName">Branch Name</label>
+                        <input type="text" id="branchName" name="branchName" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Education Details -->
+            <div class="form-section">
+                <h2>Education Details</h2>
+                <div id="educationContainer">
+                    <div class="form-grid education-row">
+                        <div class="form-group">
+                            <label class="form-label" for="education0-level">Education Level</label>
+                            <select id="education0-level" name="education[0][level]" required>
+                                <option value="">Select Level</option>
+                                <option value="High School">High School</option>
+                                <option value="Intermediate">Intermediate</option>
+                                <option value="Bachelor's">Bachelor's</option>
+                                <option value="Master's">Master's</option>
+                                <option value="Doctorate">Doctorate</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="education0-stream">Stream</label>
+                            <input type="text" id="education0-stream" name="education[0][stream]" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="education0-institution">Institution Name</label>
+                            <input type="text" id="education0-institution" name="education[0][institution]" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="education0-year">Graduation Year</label>
+                            <input type="text" id="education0-year" name="education[0][year]" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="education0-score">Percentage</label>
+                            <input type="text" id="education0-score" name="education[0][score]" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="education0-doc">Education Document</label>
+                            <input type="file" id="education0-doc" name="education[0][doc]" required accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
+                        </div>
+                    </div>
+                </div>
+                <button type="button" id="addEducationBtn" class="btn btn-primary">Add Education</button>
+            </div>
+
+            <!-- Employment History -->
+            <div class="form-section">
+                <h2>Employment History</h2>
+                <div id="employmentHistory">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="companyName1">Company Name</label>
+                            <input type="text" id="companyName1" name="companyName1">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="designation1">Designation/Role</label>
+                            <input type="text" id="designation1" name="designation1">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="lastProject1">Last Project Name</label>
+                            <input type="text" id="lastProject1" name="lastProject1">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="companyStartDate1">Start Date</label>
+                            <input type="date" id="companyStartDate1" name="companyStartDate1">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="companyEndDate1">End Date</label>
+                            <input type="date" id="companyEndDate1" name="companyEndDate1">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="employmentDoc1">Experience Certificate</label>
+                            <input type="file" id="employmentDoc1" name="employmentDoc1" required accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
+                        </div>
+                    </div>
+                </div>
+                <button type="button" id="addEmploymentBtn" class="btn btn-primary">Add Employment</button>
+            </div>
+
+            <!-- Signature -->
+            <div class="form-section">
+                <h2>Signature</h2>
+                <div class="form-group">
+                    <canvas id="signatureCanvas" width="400" height="200"></canvas>
+                </div>
+                <div class="button-group">
+                    <button type="button" id="clearSignature" class="btn btn-secondary">Clear Signature</button>
+                    <button type="submit" class="btn btn-primary">Submit Onboarding Form</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+       document.addEventListener('DOMContentLoaded', function() {
+    // Address Synchronization
+    const sameAsCurrentAddressCheckbox = document.getElementById('sameAsCurrentAddress');
+    const currentAddressTextarea = document.querySelector('textarea[name="currentAddress"]');
+    const permanentAddressTextarea = document.querySelector('textarea[name="permanentAddress"]');
+    const currentCityInput = document.querySelector('input[name="currentCity"]');
+    const permanentCityInput = document.querySelector('input[name="permanentCity"]');
+    const currentStateInput = document.querySelector('input[name="currentState"]');
+    const permanentStateInput = document.querySelector('input[name="permanentState"]');
+    const currentPincodeInput = document.querySelector('input[name="currentPincode"]');
+    const permanentPincodeInput = document.querySelector('input[name="permanentPincode"]');
+
+    sameAsCurrentAddressCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            permanentAddressTextarea.value = currentAddressTextarea.value;
+            permanentCityInput.value = currentCityInput.value;
+            permanentStateInput.value = currentStateInput.value;
+            permanentPincodeInput.value = currentPincodeInput.value;
+        } else {
+            permanentAddressTextarea.value = '';
+            permanentCityInput.value = '';
+            permanentStateInput.value = '';
+            permanentPincodeInput.value = '';
+        }
+    });
+
+    // Comprehensive Validation Function
+    function validateForm() {
+        let isValid = true;
+        const alerts = [];
+
+        // Validation Helper Functions
+        const validateRequired = (value, message) => {
+            if (!value || value.trim() === '') {
+                alerts.push(message);
+                return false;
+            }
+            return true;
+        };
+
+        const validateLength = (value, min, max, message) => {
+            if (value.trim().length < min || value.trim().length > max) {
+                alerts.push(message);
+                return false;
+            }
+            return true;
+        };
+
+        const validateRegex = (value, regex, message) => {
+            if (!regex.test(value)) {
+                alerts.push(message);
+                return false;
+            }
+            return true;
+        };
+
+        // Personal Information Validation
+        const fullName = document.querySelector('input[name="fullName"]').value;
+        const email = document.querySelector('input[name="email"]').value;
+        const phoneNo = document.querySelector('input[name="phoneNo"]').value;
+        const alternateNumber = document.querySelector('input[name="alternateNumber"]').value;
+        const guardianName = document.querySelector('input[name="guardianName"]').value;
+        const guardianContact = document.querySelector('input[name="guardianContact"]').value;
+        const gender = document.querySelector('select[name="gender"]').value;
+        const bloodGroup = document.querySelector('select[name="bloodGroup"]').value;
+        const dateOfBirth = document.querySelector('input[name="dateOfBirth"]').value;
+
+        // Full Name Validation
+        validateRequired(fullName, "Full Name is required.");
+        validateRegex(fullName, /^[A-Za-z\s]+$/, "Full Name can only contain characters.");
+        if ((fullName.match(/[A-Za-z]/g) || []).length < 5) {
+            alerts.push("Full Name must contain at least 5 alphabetical characters.");
+            isValid = false;
+        }
+
+        // Email Validation
+        validateRequired(email, "Email is required.");
+        validateRegex(email, /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, "Invalid email format.");
+
+        // Phone Number Validation
+        validateRequired(phoneNo, "Phone Number is required.");
+        validateRegex(phoneNo, /^[6-9]\d{9}$/, "Phone number must be 10 digits starting with 6-9.");
+
+        // Alternate Number Validation
+        if (alternateNumber) {
+        validateRegex(alternateNumber, /^[6-9]\d{9}$/, "Alternate number must be 10 digits starting with 6-9.");
+        }
+
+        // Guardian Name Validation
+        if (guardianName) {
+        validateLength(guardianName, 5, 50, "Guardian Name must be between 5 and 50 characters.");
+        const guardianNamePattern = /^[A-Za-z\s]+$/;
+        validateRegex(guardianName, guardianNamePattern, "Guardian Name can only contain characters.");
+        }
+
+        // Guardian Contact Number Validation
+        if (guardianContact) {
+        validateRegex(guardianContact, /^[6-9]\d{9}$/, "Guardian Contact Number must be 10 digits starting with 6-9.");
+        }
+
+        // Gender and Blood Group Validation
+        validateRequired(gender, "Gender is required.");
+        validateRequired(bloodGroup, "Blood Group is required.");
+
+        // Date of Birth Validation
+        validateRequired(dateOfBirth, "Date of Birth is required.");
+        const dobDate = new Date(dateOfBirth);
+        const minDate = new Date();
+        minDate.setFullYear(minDate.getFullYear() - 60);
+        const maxDate = new Date();
+        maxDate.setFullYear(maxDate.getFullYear() - 21);
+
+        if (dobDate > maxDate || dobDate < minDate) {
+            alerts.push("Age must be between 21 and 60 years.");
+            isValid = false;
+        }
+
+        // Government ID Validation
+        const aadharNo = document.querySelector('input[name="aadharNo"]').value;
+        const panNo = document.querySelector('input[name="panNo"]').value;
+        
+        validateRequired(aadharNo, "Aadhar Number is required.");
+        validateRegex(aadharNo, /^\d{12}$/, "Aadhar number must be 12 digits.");
+        
+        validateRequired(panNo, "PAN Number is required.");
+        validateRegex(panNo, /^[A-Z]{5}\d{4}[A-Z]$/, "Invalid PAN number format.");
+
+        // File Uploads Validation
+        const fileInputs = document.querySelectorAll('input[type="file"]');
+        fileInputs.forEach(input => {
+            if (input.hasAttribute('required') && input.files.length === 0) {
+                alerts.push(`${input.name} file is required.`);
+                isValid = false;
+            }
+
+            if (input.files.length > 0) {
+                const file = input.files[0];
+                const maxSize = 2 * 1024 * 1024; // 2MB
+                const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png'];
+
+                if (file.size > maxSize) {
+                    alerts.push(`${input.name} file must be less than 2MB.`);
+                    isValid = false;
+                }
+
+                if (!allowedTypes.includes(file.type)) {
+                    alerts.push(`${input.name} must be PDF, JPG, or PNG.`);
+                    isValid = false;
+                }
+            }
+        });
+
+        // Address Validation
+        const currentAddress = document.querySelector('textarea[name="currentAddress"]').value;
+        const currentCity = document.querySelector('input[name="currentCity"]').value;
+        const currentState = document.querySelector('input[name="currentState"]').value;
+        const currentPincode = document.querySelector('input[name="currentPincode"]').value;
+
+        validateRequired(currentAddress, "Current Address is required.");
+        validateLength(currentAddress, 5, 50, "Address must be between 5 and 50 characters.");
+        const AddressPattern = /^[A-Za-z0-9\s.-]+$/;
+        validateRegex(currentAddress, AddressPattern, "Address can only contain characters, numbers, spaces, . and -");
+        if ((currentAddress.match(/[A-Za-z]/g) || []).length < 5) {
+            alerts.push("Current Address must contain at least 5 alphabetical characters.");
+            isValid = false;
+        }
+
+        validateRequired(currentCity, "City is required.");
+        validateLength(currentCity, 5, 50, "City Name must be between 5 and 50 characters.");
+        const cityPattern = /^[A-Za-z\s]+$/;
+        validateRegex(currentCity, cityPattern, "City Name can only contain characters.");
+        if ((currentCity.match(/[A-Za-z]/g) || []).length < 5) {
+            alerts.push("Current City must contain at least 5 alphabetical characters.");
+            isValid = false;
+        }
+
+        validateRequired(currentState, "State is required.");
+        validateLength(currentState, 5, 50, "State Name must be between 5 and 50 characters.");
+        const statePattern = /^[A-Za-z\s]+$/;
+        validateRegex(currentState, statePattern, "State Name can only contain characters.");
+        if ((currentState.match(/[A-Za-z]/g) || []).length < 5) {
+            alerts.push("Current State must contain at least 5 alphabetical characters.");
+            isValid = false;
+        }
+
+        validateRequired(currentPincode, "Pincode is required.");
+        validateRegex(currentPincode, /^\d{6}$/, "Pincode must be 6 digits.");
+
+        // Bank Details Validation
+        const bankName = document.querySelector('input[name="bankNameAsPerForm"]').value;
+        const accountNo = document.querySelector('input[name="accountNo"]').value;
+        const ifscCode = document.querySelector('input[name="ifscCode"]').value;
+        const branchName = document.querySelector('input[name="branchName"]').value;
+
+        validateRequired(bankName, "Account Holder Name is required.");
+        validateLength(bankName, 5, 50, "Account Holder Name must be between 5 and 50 characters.");
+        const BanknamePattern = /^[A-Za-z\s]+$/;
+        validateRegex(bankName, BanknamePattern, "Account Holder Name can only contain characters.");
+        if ((bankName.match(/[A-Za-z]/g) || []).length < 5) {
+            alerts.push("Account Holder Name must contain at least 5 alphabetical characters.");
+            isValid = false;
+        }
+
+        validateRequired(accountNo, "Account Number is required.");
+        validateRegex(accountNo, /^\d{9,18}$/, "Account number must be 9-18 digits.");
+        
+        validateRequired(ifscCode, "IFSC Code is required.");
+        validateRegex(ifscCode, /^[A-Z]{4}0[A-Z0-9]{6}$/, "Invalid IFSC code format.");
+        
+        validateRequired(branchName, "Branch Name is required.");
+        validateLength(branchName, 5, 50, "Bank Branch Name must be between 5 and 50 characters.");
+        const BranchnamePattern = /^[A-Za-z\s]+$/;
+        validateRegex(branchName, BranchnamePattern, "Bank Branch Name can only contain characters.");
+        if ((branchName.match(/[A-Za-z]/g) || []).length < 5) {
+            alerts.push("Branch Name must contain at least 5 alphabetical characters.");
+            isValid = false;
+        }
+
+        // Signature Validation
+        const canvas = document.getElementById('signatureCanvas');
+        const ctx = canvas.getContext('2d');
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const signaturePixels = imageData.data.some(pixel => pixel !== 0);
+        
+        if (!signaturePixels) {
+            alerts.push("Please provide a signature.");
+            isValid = false;
+        }
+
+        // Education Details Validation
+        const educationRows = document.querySelectorAll('.education-row');
+        educationRows.forEach((row, index) => {
+            const level = row.querySelector(`select[name="education[${index}][level]"]`).value;
+            const stream = row.querySelector(`input[name="education[${index}][stream]"]`).value;
+            const institution = row.querySelector(`input[name="education[${index}][institution]"]`).value;
+            const year = row.querySelector(`input[name="education[${index}][year]"]`).value;
+            const score = row.querySelector(`input[name="education[${index}][score]"]`).value;
+
+            validateRequired(level, `Education level is required for row ${index + 1}.`);
+
+            validateRequired(stream, `Stream is required for row ${index + 1}.`);
+            validateLength(stream, 3, 50, "Educational Stream Name must be between 3 and 50 characters.");
+            const StreamPattern = /^[A-Za-z\s]+$/;
+            validateRegex(stream, StreamPattern, "Educational Stream Name can only contain characters.");
+            if ((stream.match(/[A-Za-z]/g) || []).length < 5) {
+                alerts.push(`Educational Stream must contain at least 5 alphabetical characters for row ${index + 1}.`);
+                isValid = false;
+            }
+
+            validateRequired(institution, `Institution is required for row ${index + 1}.`);
+            validateLength(institution, 5, 50, "Educational Institution Name must be between 5 and 50 characters.");
+            const institutionPattern = /^[A-Za-z\s]+$/;
+            validateRegex(institution, institutionPattern, "Educational Institution Name can only contain characters.");
+            if ((institution.match(/[A-Za-z]/g) || []).length < 5) {
+                alerts.push(`Educational Institution must contain at least 5 alphabetical characters for row ${index + 1}.`);
+                isValid = false;
+            }
+
+            validateRequired(year, `Graduation year is required for row ${index + 1}.`);
+            validateRequired(score, `Educational Score is required for row ${index + 1}.`);
+
+            const currentYear = new Date().getFullYear();
+            if (year && (!/^\d{4}$/.test(year) || year > currentYear)) {
+                alerts.push(`Invalid graduation year in row ${index + 1}.`);
+                isValid = false;
+            }
+
+            if (score && (!/^\d+(\.\d+)?$/.test(score) || parseFloat(score) > 100)) {
+                alerts.push(`Invalid score in row ${index + 1}. Must be between 0-100.`);
+                isValid = false;
+            }
+        });
+
+        const employmentRows = document.querySelectorAll('#employmentHistory .form-grid');
+employmentRows.forEach((row, index) => {
+    const companyName = row.querySelector(`input[name="companyName${index + 1}"]`)?.value;
+    const designation = row.querySelector(`input[name="designation${index + 1}"]`)?.value;
+    const lastProject = row.querySelector(`input[name="lastProject${index + 1}"]`)?.value;
+    const startDate = row.querySelector(`input[name="companyStartDate${index + 1}"]`)?.value;
+    const endDate = row.querySelector(`input[name="companyEndDate${index + 1}"]`)?.value;
+    const experienceCertificate = row.querySelector(`input[name="employmentDoc${index + 1}"]`);
+
+    // Helper function to count alphabetical characters
+    const countAlphabeticalChars = (str) => {
+        return (str.match(/[A-Za-z]/g) || []).length;
+    };
+
+    // Company Name Validation
+    validateRequired(companyName, `Company name is required for employment record ${index + 1}`);
+    validateLength(companyName, 5, 100, `Company name must be between 5 and 100 characters for employment record ${index + 1}`);
+    const companyNamePattern = /^[A-Za-z0-9\s&.-]+$/;
+    validateRegex(companyName, companyNamePattern, `Company name can only contain letters, numbers, spaces, &, ., and - for employment record ${index + 1}`);
+    if (countAlphabeticalChars(companyName) < 5) {
+        alerts.push(`Company name must contain at least 5 alphabetical characters for employment record ${index + 1}`);
+        isValid = false;
+    }
+
+    // Designation Validation
+    validateRequired(designation, `Designation is required for employment record ${index + 1}`);
+    validateLength(designation, 5, 50, `Designation must be between 5 and 50 characters for employment record ${index + 1}`);
+    const designationPattern = /^[A-Za-z\s.-]+$/;
+    validateRegex(designation, designationPattern, `Designation can only contain letters, spaces, . and - for employment record ${index + 1}`);
+    if (countAlphabeticalChars(designation) < 5) {
+        alerts.push(`Designation must contain at least 5 alphabetical characters for employment record ${index + 1}`);
+        isValid = false;
+    }
+
+    // Project Name Validation
+    validateRequired(lastProject, `Project name is required for employment record ${index + 1}`);
+    validateLength(lastProject, 5, 100, `Project name must be between 5 and 100 characters for employment record ${index + 1}`);
+    const projectNamePattern = /^[A-Za-z0-9\s_.-]+$/;
+    validateRegex(lastProject, projectNamePattern, `Project name can only contain letters, numbers, spaces, _, ., and - for employment record ${index + 1}`);
+    if (countAlphabeticalChars(lastProject) < 5) {
+        alerts.push(`Project name must contain at least 5 alphabetical characters for employment record ${index + 1}`);
+        isValid = false;
+    }
+
+    // Date Validation
+    validateRequired(startDate, `Start date is required for employment record ${index + 1}`);
+    validateRequired(endDate, `End date is required for employment record ${index + 1}`);
+
+    // Date Range Validation
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const today = new Date();
+    const maxPastDate = new Date();
+    maxPastDate.setFullYear(maxPastDate.getFullYear() - 40); // Maximum 40 years in the past
+
+    if (start > today) {
+        alerts.push(`Start date cannot be in the future for employment record ${index + 1}`);
+        isValid = false;
+    }
+
+    if (end > today) {
+        alerts.push(`End date cannot be in the future for employment record ${index + 1}`);
+        isValid = false;
+    }
+
+    if (start < maxPastDate) {
+        alerts.push(`Start date cannot be more than 40 years ago for employment record ${index + 1}`);
+        isValid = false;
+    }
+
+    if (start > end) {
+        alerts.push(`Start date must be before end date for employment record ${index + 1}`);
+        isValid = false;
+    }
+
+    // Experience Certificate File Validation
+    if (experienceCertificate.files.length > 0) {
+        const file = experienceCertificate.files[0];
+        const maxSize = 2 * 1024 * 1024; // 2MB
+        const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png'];
+
+        if (file.size > maxSize) {
+            alerts.push(`Experience certificate file must be less than 2MB for employment record ${index + 1}`);
+            isValid = false;
+        }
+
+        if (!allowedTypes.includes(file.type)) {
+            alerts.push(`Experience certificate must be PDF, JPG, or PNG for employment record ${index + 1}`);
+            isValid = false;
+        }
+    }
+
+    // Employment Duration Validation
+    const durationInMonths = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
+    if (durationInMonths < 1) {
+        alerts.push(`Employment duration must be at least 1 month for employment record ${index + 1}`);
+        isValid = false;
+    }
+    if (durationInMonths > 480) { // 40 years
+        alerts.push(`Employment duration cannot exceed 40 years for employment record ${index + 1}`);
+        isValid = false;
+    }
+});
+
+        // Display Validation Alerts
+        if (alerts.length > 0) {
+            alert(alerts.join('\n'));
+            return false;
+        }
+
+        return true;
+    }
+
+    // Dynamically Add Education Rows
+    const addEducationBtn = document.getElementById('addEducationBtn');
+    const educationContainer = document.getElementById('educationContainer');
+    let educationCounter = 1;
+
+    addEducationBtn.addEventListener('click', function() {
+        const newEducationRow = document.createElement('div');
+        newEducationRow.classList.add('form-grid', 'education-row', 'mt-4');
+        
+        newEducationRow.innerHTML = `
+            <select name="education[${educationCounter}][level]" required>
+                <option value="">Select Level</option>
+                <option value="High School">High School</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="Bachelor's">Bachelor's</option>
+                <option value="Master's">Master's</option>
+                <option value="Doctorate">Doctorate</option>
+            </select>
+            <input type="text" name="education[${educationCounter}][stream]" placeholder="Stream Name" required>
+            <input type="text" name="education[${educationCounter}][institution]" placeholder="Institution Name" required>
+            <input type="text" name="education[${educationCounter}][year]" placeholder="Graduation Year" required>
+            <input type="text" name="education[${educationCounter}][score]" placeholder="Percentage" required>
+            <input type="file" name="education[${educationCounter}][doc]" placeholder="Upload Document" accept=".pdf,.jpg,.jpeg,.png">
+            <button type="button" class="remove-education btn btn-danger">Remove</button>
+        `;
+
+        educationContainer.appendChild(newEducationRow);
+
+        // Add remove functionality
+        newEducationRow.querySelector('.remove-education').addEventListener('click', function() {
+            newEducationRow.remove();
+        });
+
+        educationCounter++;
+    });
+
+    // Dynamically Add Employment Rows
+    const addEmploymentBtn = document.getElementById('addEmploymentBtn');
+    const employmentHistory = document.getElementById('employmentHistory');
+    let employmentCounter = 1;
+
+    addEmploymentBtn.addEventListener('click', function() {
+        employmentCounter++;
+        const newEmploymentRow = document.createElement('div');
+        newEmploymentRow.classList.add('form-grid');
+        
+        newEmploymentRow.innerHTML = `
+            <input type="text" name="companyName${employmentCounter}" placeholder="Company Name">
+            <input type="text" name="designation${employmentCounter}" placeholder="Designation/Role">
+            <input type="text" name="lastProject${employmentCounter}" placeholder="Last Project Name">
+            <input type="date" name="companyStartDate${employmentCounter}" placeholder="Start Date">
+            <input type="date" name="companyEndDate${employmentCounter}" placeholder="End Date">
+            <input type="file" name="employmentDoc${employmentCounter}" placeholder="Upload Experience Certificate" accept=".pdf,.jpg,.jpeg,.png">
+            <button type="button" class="remove-employment btn btn-danger">Remove</button>
+        `;
+
+        employmentHistory.appendChild(newEmploymentRow);
+
+        // Add remove functionality
+        newEmploymentRow.querySelector('.remove-employment').addEventListener('click', function() {
+            newEmploymentRow.remove();
+        });
+    });
+
+    // Signature Handling
+    const canvas = document.getElementById('signatureCanvas');
+    const ctx = canvas.getContext('2d');
+    const clearSignatureBtn = document.getElementById('clearSignature');
+    let isDrawing = false;
+
+    function startDrawing(e) {
+        isDrawing = true;
+        draw(e);
+    }
+
+    function stopDrawing() {
+        isDrawing = false;
+        ctx.beginPath();
+    }
+
+    function draw(e) {
+        if (!isDrawing) return;
+        
+        ctx.lineWidth = 2;
+        ctx.lineCap = 'round';
+        ctx.lineTo(e.offsetX, e.offsetY);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(e.offsetX, e.offsetY);
+    }
+
+    canvas.addEventListener('mousedown', startDrawing);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', stopDrawing);
+    canvas.addEventListener('mouseout', stopDrawing);
+
+    clearSignatureBtn.addEventListener('click', function() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    });
+
+    // Form Submission Event Listener
+    document.getElementById('onboardingForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Perform validation
+        if (validateForm()) {
+            const formData = new FormData(e.target);
+            const employeeData = {};
+            const educationDetails = [];
+            const employmentDetails = [];
+
+              // Capture signature data
+            const canvas = document.getElementById('signatureCanvas');
+            const signatureData = canvas.toDataURL('image/png'); // Convert signature to base64 string
+            employeeData.signature = signatureData; // Add signature to employee data
+
+            for (let [key, value] of formData.entries()) {
+                // Handle education details
+                if (key.startsWith('education[')) {
+                    const match = key.match(/education\[(\d+)\]\[(\w+)\]/);
+                    if (match) {
+                        const [, index, field] = match;
+                        if (!educationDetails[index]) {
+                            educationDetails[index] = {};
+                        }
+                        educationDetails[index][field] = value;
+                    }
+                } 
+                // Handle employment details
+                else if (key.startsWith('companyName') || 
+                         key.startsWith('designation') || 
+                         key.startsWith('lastProject') || 
+                         key.startsWith('companyStartDate') || 
+                         key.startsWith('companyEndDate') || 
+                         key.startsWith('employmentDoc')) {
+                    const match = key.match(/(\w+)(\d+)/);
+                    if (match) {
+                        const [, fieldType, index] = match;
+                        if (!employmentDetails[index-1]) {
+                            employmentDetails[index-1] = {};
+                        }
+                        employmentDetails[index-1][fieldType] = value;
+                    }
+                }
+                // Handle file inputs
+                else if (value instanceof File) {
+                    if (value.name) {
+                        employeeData[key] = value.name;
+                    }
+                } 
+                // Handle other form fields
+                else {
+                    employeeData[key] = value;
+                }
+            }
+
+            // Filter out any empty entries
+           // Filter out any empty entries
+           const filteredEducationDetails = educationDetails.filter(edu => 
+                edu && Object.keys(edu).length > 0
+            );
+            const filteredEmploymentDetails = employmentDetails.filter(emp => 
+                emp && Object.keys(emp).length > 0
+            );
+
+            // Add details to employee data
+            employeeData.educationDetails = filteredEducationDetails;
+            employeeData.employmentDetails = filteredEmploymentDetails;
+
+            // Generate a unique key for local storage
+            const uniqueKey = 'employee_' + Date.now();
+            
+            // Save to local storage
+            localStorage.setItem(uniqueKey, JSON.stringify(employeeData));
+
+            // Debugging: Log saved data to console
+            console.log('Saved Employee Data:', employeeData);
+
+            // Show success message
+            alert('Form Submitted Successfully!');
+
+            // Optional: Reset form and reload page
+            setTimeout(function() {
+                e.target.reset();  // Reset the form
+                location.reload();  // Refresh the page
+            }, 0);
+        }
+    });
+});
+    </script>
+</body>
+</html>

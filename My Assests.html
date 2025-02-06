@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Assets - Asset Management</title>
+    <!-- <link rel="stylesheet" href="./My-Assests.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Modern Reset & Variables */
+:root {
+    --primary: #4f46e5;
+    --primary-dark: #4338ca;
+    --success: #22c55e;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-700: #374151;
+    --gray-900: #111827;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--gray-50);
+    color: var(--gray-900);
+    line-height: 1.5;
+}
+
+/* Layout & Container */
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Header Styles */
+.header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.5);
+    animation: slideDown 0.5s ease-out;
+}
+
+.action-bar{
+    display: flex;
+    justify-content: space-between;
+}
+
+.logo {
+    color: var(--primary);
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.025em;
+}
+
+.tagline {
+    color: var(--gray-700);
+    font-size: 1.125rem;
+}
+
+/* Asset Cards Grid */
+.assets-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.asset-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    animation: fadeIn 0.5s ease-out;
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.5);
+}
+
+.asset-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.asset-icon {
+    font-size: 2.5rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.asset-card:hover .asset-icon {
+    transform: scale(1.1);
+}
+
+.asset-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--gray-900);
+}
+
+.asset-details {
+    font-size: 0.875rem;
+    color: var(--gray-700);
+    margin-bottom: 0.5rem;
+}
+
+/* Status Badges */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.status-assigned {
+    background-color: var(--success);
+    color: white;
+}
+
+.status-available {
+    background-color: var(--primary);
+    color: white;
+}
+
+.status-pending {
+    background-color: var(--warning);
+    color: white;
+}
+
+.status-rejected {
+    background-color: var(--danger);
+    color: white;
+}
+
+.close{
+    cursor: pointer;
+}
+
+.close:hover{
+    color: #ef4444;
+    border-style: groove;
+}
+
+/* HR Table Styles */
+.requests-list {
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: var(--shadow);
+    animation: slideUp 0.5s ease-out;
+}
+
+.requests-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 1.5rem;
+}
+
+.requests-table th {
+    background-color: var(--gray-100);
+    padding: 1rem;
+    font-weight: 600;
+    text-align: left;
+    border-bottom: 2px solid var(--gray-200);
+}
+
+.requests-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--gray-200);
+    transition: background-color 0.2s ease;
+}
+
+.requests-table tr:hover td {
+    background-color: var(--gray-50);
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 2rem;
+    border-radius: 1rem;
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    animation: slideUp 0.5s ease-out;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--gray-700);
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--gray-200);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+/* Button Styles */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+}
+
+.btn-success {
+    background-color: var(--success);
+    color: white;
+}
+
+.btn-danger {
+    background-color: var(--danger);
+    color: white;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Request Details Styles */
+.request-details {
+    background: var(--gray-50);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin: 1.5rem 0;
+}
+
+.request-details p {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.request-details strong {
+    color: var(--gray-700);
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+    
+    .assets-list {
+        grid-template-columns: 1fr;
+    }
+
+    .action-bar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .assets-title {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .requests-table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    .modal-content {
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    /* Modify button size and form field padding for smaller screens */
+    .btn {
+        width: 100%;
+        padding: 1rem;
+    }
+
+    input, select, textarea {
+        font-size: 0.875rem;
+        padding: 1rem;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <section class="assets-section">
+            <header class="header">
+                <h1 class="logo">ASSET MANAGEMENT</h1>
+                <p class="tagline">Track and manage your assigned assets efficiently</p>
+            </header>
+            <div class="action-bar">
+                <h2 class="assets-title">My Assets</h2>
+                <button class="btn btn-primary" onclick="openRequestForm()">
+                    <i class="fas fa-plus"></i>
+                    Request Asset
+                </button>
+            </div>
+            <div class="assets-list">
+                <div class="asset-card">
+                    <div class="asset-icon">
+                        <i class="fas fa-laptop"></i>
+                    </div>
+                    <h3 class="asset-name">Laptop</h3>
+                    <p class="asset-details">MacBook Pro 16"</p>
+                    <p class="asset-details">Serial: MBP2023-1234</p>
+                    <p class="status-badge status-assigned">Assigned</p>
+                </div>
+                <div class="asset-card">
+                    <div class="asset-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <h3 class="asset-name">Monitor</h3>
+                    <p class="asset-details">Dell 27" 4K</p>
+                    <p class="asset-details">Serial: DEL2023-5678</p>
+                    <p class="status-badge status-assigned">Assigned</p>
+                </div>
+                <div class="asset-card">
+                    <div class="asset-icon">
+                        <i class="fas fa-keyboard"></i>
+                    </div>
+                    <h3 class="asset-name">Keyboard</h3>
+                    <p class="asset-details">Logitech MX Keys</p>
+                    <p class="asset-details">Serial: LOG2023-9012</p>
+                    <p class="status-badge status-assigned">Assigned</p>
+                </div>
+                <div class="asset-card">
+                    <div class="asset-icon">
+                        <i class="fas fa-mouse"></i>
+                    </div>
+                    <h3 class="asset-name">Mouse</h3>
+                    <p class="asset-details">Logitech MX Master 3</p>
+                    <p class="asset-details">Serial: LOG2023-3456</p>
+                    <p class="status-badge status-available">Available</p>
+                </div>
+                <div class="asset-card">
+                    <div class="asset-icon">
+                        <i class="fas fa-headphones"></i>
+                    </div>
+                    <h3 class="asset-name">Headphones</h3>
+                    <p class="asset-details">Sony WH-1000XM4</p>
+                    <p class="asset-details">Serial: SNY2023-7890</p>
+                    <p class="status-badge status-assigned">Assigned</p>
+                </div>
+                <div class="asset-card">
+                    <div class="asset-icon">
+                        <i class="fas fa-chair"></i>
+                    </div>
+                    <h3 class="asset-name">Office Chair</h3>
+                    <p class="asset-details">Herman Miller Aeron</p>
+                    <p class="asset-details">Serial: HM2023-4321</p>
+                    <p class="status-badge status-assigned">Assigned</p>
+                </div>
+                <div class="asset-card">
+                    <div class="asset-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="asset-name">Phone</h3>
+                    <p class="asset-details">iPhone 14 Pro</p>
+                    <p class="asset-details">Serial: IPH2023-8765</p>
+                    <p class="status-badge status-available">Available</p>
+                </div>
+                <div class="asset-card">
+                    <div class="asset-icon">
+                        <i class="fas fa-tablet-alt"></i>
+                    </div>
+                    <h3 class="asset-name">Tablet</h3>
+                    <p class="asset-details">iPad Pro 12.9"</p>
+                    <p class="asset-details">Serial: IPD2023-6543</p>
+                    <p class="status-badge status-available">Available</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Asset Request Form Modal -->
+        <div id="requestModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeRequestForm()">&times;</span>
+                <h2>Request New Asset</h2>
+                <form id="assetRequestForm" onsubmit="submitRequest(event)">
+                    <div class="form-group">
+                        <label for="employeeId">Employee ID</label>
+                        <input type="text" id="employeeId" required placeholder="Enter your employee ID">
+                    </div>
+                    <div class="form-group">
+                        <label for="assetType">Asset Type</label>
+                        <select id="assetType" required>
+                            <option value="">Select Asset Type</option>
+                            <option value="laptop">Laptop</option>
+                            <option value="monitor">Monitor</option>
+                            <option value="keyboard">Keyboard</option>
+                            <option value="mouse">Mouse</option>
+                            <option value="headphones">Headphones</option>
+                            <option value="chair">Office Chair</option>
+                            <option value="phone">Phone</option>
+                            <option value="tablet">Tablet</option>
+                        </select>
+                        <span id="assetTypeError" style="color: red; display: none;">Please select an asset type.</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="reason">Reason for Request</label>
+                             <textarea id="reason" required placeholder="Please provide a detailed reason for your request"></textarea>
+                             <span id="reasonError" style="color: red; display: none;">Reason must be at least 5 characters long.</span>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Submit Request</button>
+                        <button type="button" class="btn btn-danger" onclick="closeRequestForm()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Store requests in localStorage for demo purposes
+let requests = JSON.parse(localStorage.getItem('assetRequests')) || [];
+
+function openRequestForm() {
+    document.getElementById('requestModal').style.display = 'block';
+}
+
+function closeRequestForm() {
+    document.getElementById('requestModal').style.display = 'none';
+}
+
+function submitRequest(event) {
+    event.preventDefault();
+
+    const reason = document.getElementById('reason').value;
+    // Get values from form fields
+    const employeeId = document.getElementById('employeeId').value;
+    
+    // Regular expression for validating Employee ID (exactly 7 alphanumeric characters)
+    const idRegex = /^ATS0\d{3}$/;
+
+    // Validate Employee Name (at least 5 characters long)
+
+    // Validate Employee ID (exactly 7 alphanumeric characters)
+    if (!idRegex.test(employeeId)) {
+        alert("Employee ID must be exactly 7 alphanumeric characters.");
+        return;
+    }
+
+     // Validate Reason (at least 5 non-space characters, letters and spaces only)
+     if (reason.replace(/\s/g, '').length < 5 || !/^[A-Za-z\s]+$/.test(reason)) {
+        alert('Please enter a valid reason (minimum 5 characters, letters and spaces only).');
+        return;
+    }
+
+
+    // Create the asset request object
+    const request = {
+        id: Date.now(),
+        employeeId: employeeId,
+        assetType: document.getElementById('assetType').value,
+        reason: reason,
+        status: 'pending',
+        requestDate: new Date().toISOString(),
+    };
+
+    // Add the request to the requests array and store it in localStorage
+    requests.push(request);
+    localStorage.setItem('assetRequests', JSON.stringify(requests));
+
+    // Reset the form and close the modal
+    document.getElementById('assetRequestForm').reset();
+    closeRequestForm();
+
+    // Inform the user that the request has been successfully submitted
+    alert('Request submitted successfully!');
+}
+
+document.getElementById('assetType').addEventListener('change', function() {
+        const assetTypeError = document.getElementById('assetTypeError');
+        if (this.value === '') {
+            assetTypeError.style.display = 'block';
+        } else {
+            assetTypeError.style.display = 'none';
+        }
+});
+
+// Real-time validation for Reason for Request
+document.getElementById('reason').addEventListener('input', function() {
+    const reasonError = document.getElementById('reasonError');
+    
+    // Remove spaces and check if there are at least 5 non-space characters
+    if (this.value.replace(/\s/g, '').length < 5 || !/^[A-Za-z\s]+$/.test(this.value)) {
+        reasonError.style.display = 'block';
+    } else {
+        reasonError.style.display = 'none';
+    }
+});
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+    const modal = document.getElementById('requestModal');
+    if (event.target === modal) {
+        closeRequestForm();
+    }
+}
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Biometric Attendance System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #1a1a1a;
+        }
+
+        .container {
+            position: relative;
+            width: 400px;
+            padding: 30px;
+            background: #2a2a2a;
+            border-radius: 20px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .fingerprint-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+            background: #333;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .fingerprint {
+            width: 120px;
+            height: 120px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23fff" d="M50 0C22.4 0 0 22.4 0 50s22.4 50 50 50 50-22.4 50-50S77.6 0 50 0zm0 90c-22.1 0-40-17.9-40-40s17.9-40 40-40 40 17.9 40 40-17.9 40-40 40z"/><path fill="%23fff" d="M50 20c-16.5 0-30 13.5-30 30s13.5 30 30 30 30-13.5 30-30-13.5-30-30-30zm0 50c-11 0-20-9-20-20s9-20 20-20 20 9 20 20-9 20-20 20z"/></svg>');
+            background-size: cover;
+            opacity: 0.7;
+        }
+
+        .scan-line {
+            position: absolute;
+            width: 200px;
+            height: 4px;
+            background: #00ff00;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: scan 2s linear infinite;
+            opacity: 0;
+            box-shadow: 0 0 10px #00ff00;
+        }
+
+        @keyframes scan {
+            0% {
+                top: 0;
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                top: 200px;
+                opacity: 0;
+            }
+        }
+
+        .status {
+            text-align: center;
+            color: #fff;
+            margin: 20px 0;
+            font-size: 1.2em;
+        }
+
+        .time {
+            text-align: center;
+            color: #00ff00;
+            font-size: 2em;
+            margin: 10px 0;
+        }
+
+        .records {
+            margin-top: 20px;
+            color: #fff;
+        }
+
+        .record {
+            background: #333;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .success-animation {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid #00ff00;
+            animation: success 1s ease-out;
+            opacity: 0;
+        }
+
+        @keyframes success {
+            0% {
+                transform: scale(0.5);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .error-animation {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid #ff0000;
+            animation: error 0.5s ease-out;
+        }
+
+        @keyframes error {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            20%, 60% {
+                transform: translateX(-10px);
+            }
+            40%, 80% {
+                transform: translateX(10px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="fingerprint-container" id="fingerprintReader">
+            <div class="fingerprint"></div>
+            <div class="scan-line"></div>
+        </div>
+        <div class="time" id="currentTime"></div>
+        <div class="status" id="status">Place your finger to punch in/out</div>
+        <div class="records" id="records"></div>
+    </div>
+
+    <script>
+        const fingerprintReader = document.getElementById('fingerprintReader');
+        const status = document.getElementById('status');
+        const currentTime = document.getElementById('currentTime');
+        const records = document.getElementById('records');
+        
+        let isProcessing = false;
+        let lastPunchType = 'out';
+        
+        // Update current time
+        function updateTime() {
+            const now = new Date();
+            currentTime.textContent = now.toLocaleTimeString();
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // Simulate fingerprint scan
+        fingerprintReader.addEventListener('click', async () => {
+            if (isProcessing) return;
+            isProcessing = true;
+
+            // Start scanning animation
+            const scanLine = document.querySelector('.scan-line');
+            scanLine.style.opacity = '1';
+
+            // Simulate processing
+            status.textContent = 'Scanning...';
+            
+            try {
+                // Simulate API call with random success/failure
+                const success = Math.random() > 0.2;
+                await new Promise(resolve => setTimeout(resolve, 2000));
+
+                if (success) {
+                    // Success animation
+                    const successAnim = document.createElement('div');
+                    successAnim.className = 'success-animation';
+                    fingerprintReader.appendChild(successAnim);
+                    setTimeout(() => successAnim.remove(), 1000);
+
+                    // Update punch type
+                    lastPunchType = lastPunchType === 'in' ? 'out' : 'in';
+                    
+                    // Add record
+                    const record = document.createElement('div');
+                    record.className = 'record';
+                    const now = new Date();
+                    record.innerHTML = `
+                        <span>Punch ${lastPunchType}</span>
+                        <span>${now.toLocaleTimeString()}</span>
+                    `;
+                    records.insertBefore(record, records.firstChild);
+                    
+                    status.textContent = `Successfully punched ${lastPunchType}!`;
+                    status.style.color = '#00ff00';
+                } else {
+                    // Error animation
+                    const errorAnim = document.createElement('div');
+                    errorAnim.className = 'error-animation';
+                    fingerprintReader.appendChild(errorAnim);
+                    setTimeout(() => errorAnim.remove(), 500);
+
+                    status.textContent = 'Scan failed. Please try again.';
+                    status.style.color = '#ff0000';
+                }
+            } catch (error) {
+                status.textContent = 'System error. Please try again.';
+                status.style.color = '#ff0000';
+            }
+
+            // Reset
+            scanLine.style.opacity = '0';
+            isProcessing = false;
+            setTimeout(() => {
+                status.style.color = '#fff';
+                status.textContent = 'Place your finger to punch in/out';
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
